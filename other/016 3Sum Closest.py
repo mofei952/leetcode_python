@@ -19,6 +19,7 @@ from typing import List
 
 class Solution:
     def threeSumClosest(self, nums: List[int], target: int) -> int:
+        """nums中和最接近target的三个数的和"""
         if len(nums) < 3:
             return 0
         if len(nums) == 3:
@@ -40,6 +41,7 @@ class Solution:
         return closest
 
     def threeSumClosest2(self, nums: List[int], target: int) -> int:
+        """nums中和最接近target的三个数的和"""
         def closest_func(cur_sum):
             if cur_sum == target:
                 return cur_sum
