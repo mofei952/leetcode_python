@@ -28,8 +28,8 @@ from linked_list.list_node import ListNode
 class Solution:
     def insertionSortList(self, head: ListNode) -> ListNode:
         """链表插入排序"""
-        if not head:
-            return []
+        if not head or not head.next:
+            return head
         cur = head.next
         last = head
         while cur:
@@ -52,8 +52,36 @@ class Solution:
                 cur = tt
         return head
 
+    def insertionSortList2(self, head: ListNode) -> ListNode:
+        """链表插入排序 优化后"""
+        if not head or not head.next:
+            return head
+
+        root = ListNode(-1)
+        root.next = head
+
+        cur = head
+
+        while cur and cur.next:
+            val = cur.next.val
+
+            if cur.val < val:
+                cur = cur.next
+                continue
+
+            t = root
+            while t.next and t.next.val < val:
+                t = t.next
+
+            new = cur.next
+            cur.next = new.next
+            new.next = t.next
+            t.next = new
+
+        return root.next
+
 
 if __name__ == '__main__':
-    linked_list = ListNode.create_linked_list([])
-    result = Solution().insertionSortList(linked_list)
+    linked_list = ListNode.create_linked_list([4, 2, 1, 3])
+    result = Solution().insertionSortList2(linked_list)
     print(result)
