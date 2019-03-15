@@ -33,21 +33,39 @@ class Solution:
         """二叉树的层序遍历"""
         if not root:
             return []
-        stack = [(root, 0)]
+        queue = [(root, 0)]
         result = []
-        while stack:
-            node, level = stack.pop(0)
+        while queue:
+            node, level = queue.pop(0)
             if level >= len(result):
                 result.append([])
             result[-1].append(node.val)
             if node.left:
-                stack.append((node.left, level + 1))
+                queue.append((node.left, level + 1))
             if node.right:
-                stack.append((node.right, level + 1))
+                queue.append((node.right, level + 1))
+        return result
+
+    def levelOrder2(self, root: TreeNode) -> List[List[int]]:
+        """二叉树的层序遍历 优化"""
+        if not root:
+            return []
+        queue = [root]
+        result = []
+        while queue:
+            result.append([])
+            next_queue = []
+            for node in queue:
+                result[-1].append(node.val)
+                if node.left:
+                    next_queue.append(node.left)
+                if node.right:
+                    next_queue.append(node.right)
+            queue = next_queue
         return result
 
 
 if __name__ == '__main__':
     # print(TreeNode.create_tree([3, 9, 20, None, None, 15, 7]))
-    result = Solution().levelOrder(TreeNode.create_tree([3, 9, 20, None, None, 15, 7]))
+    result = Solution().levelOrder2(TreeNode.create_tree([3, 9, 20, None, None, 15, 7]))
     print(result)
