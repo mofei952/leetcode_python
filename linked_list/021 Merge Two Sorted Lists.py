@@ -15,6 +15,7 @@ Output: 1->1->2->3->4->4
 """
 import pytest
 
+from commons import func_test
 from linked_list.list_node import ListNode
 
 
@@ -54,33 +55,29 @@ class Solution:
 
 
 # pytest -q --tb=line "linked_list\021 Merge Two Sorted Lists.py"
-# pytest -vv --durations=10 --tb=line "linked_list\021 Merge Two Sorted Lists.py"
-# pytest -vv --durations=10 --tb=line --junitxml=linked_list\test.xml "linked_list\021 Merge Two Sorted Lists.py"
+# pytest -vv --durations=10 -q --tb=line "linked_list\021 Merge Two Sorted Lists.py"
+# pytest -vv --durations=10 -q --tb=line --junitxml=linked_list\test.xml "linked_list\021 Merge Two Sorted Lists.py"
 @pytest.fixture(scope="module")
 def test_data():
-    data_list = [
-        [2, 3], [1, 2],
-        [1, 2, 3], [1, 3, 4],
-        [5, 9, 10], [6, 7, 11, 20]
+    params_list = [
+        ([2, 3], [1, 2]),
+        ([1, 2, 3], [1, 3, 4]),
+        ([5, 9, 10], [6, 7, 11, 20]),
     ]
-    test_linked_list = []
-    for i in range(len(data_list) // 2):
-        l1 = ListNode.create_linked_list(data_list[i * 2])
-        l2 = ListNode.create_linked_list(data_list[i * 2 + 1])
-        test_linked_list.append((l1, l2))
-    return test_linked_list
-
-
-def speed_test(func, test_data):
-    for i in range(100000):
-        assert str(func(*test_data[0])) == '1->2->2->3'
-        assert str(func(*test_data[1])) == '1->1->2->3->3->4'
-        assert str(func(*test_data[2])) == '5->6->7->9->10->11->20'
+    res_list = [
+        '1->2->2->3',
+        '1->1->2->3->3->4',
+        '5->6->7->9->10->11->20'
+    ]
+    for i in range(len(params_list)):
+        cll = ListNode.create_linked_list
+        params_list[i] = cll(params_list[i][0]), cll(params_list[i][1])
+    return params_list, res_list, 100000, str
 
 
 def test_021(test_data):
-    speed_test(Solution().mergeTwoLists, test_data)
+    func_test(Solution().mergeTwoLists, *test_data)
 
 
 def test_021_2(test_data):
-    speed_test(Solution().mergeTwoLists2, test_data)
+    func_test(Solution().mergeTwoLists2, *test_data)
