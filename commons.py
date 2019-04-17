@@ -17,4 +17,4 @@ def func_test(func: callable, params_list: List, res_list: List, times: int = 1,
             res = func(*params)
             if after_func:
                 res = after_func(res)
-            assert res == predict_res
+            assert res == predict_res, 'func:{}, param:{}, result:{}, predict:{}'.format(func.__name__, params, res, predict_res)
