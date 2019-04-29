@@ -41,6 +41,20 @@ class Solution:
                 b_list[j] = False
         return len([b for b in b_list if b])
 
+    def countPrimes3(self, n: int) -> int:
+        b_list = [False] * 2 + [True] * (n - 2)
+        for i in range(2, int(math.sqrt(n)) + 1):
+            if b_list[i]:
+                b_list[i * i: n: i] = [False] * len(b_list[i * i: n: i])
+        return sum(b_list)
+
+    def countPrimes4(self, n: int) -> int:
+        b_list = [False] * 2 + [True] * (n - 2)
+        for i in range(2, int(math.sqrt(n)) + 1):
+            if b_list[i]:
+                b_list[i * i: n: i] = [False] * math.ceil((n - i * i) / i)
+        return sum(b_list)
+
 
 @pytest.fixture(scope="module")
 def test_data():
@@ -54,16 +68,25 @@ def test_data():
         0,
         41537,
     ]
-    return params_list, res_list, 1
+    return params_list, res_list, 10
 
 
-def test_204(test_data):
-    func_test(Solution().countPrimes, *test_data)
+# def test_204(test_data):
+#     func_test(Solution().countPrimes, *test_data)
 
 
 def test_204_2(test_data):
     func_test(Solution().countPrimes2, *test_data)
 
 
+def test_204_3(test_data):
+    func_test(Solution().countPrimes3, *test_data)
+
+
+def test_204_4(test_data):
+    func_test(Solution().countPrimes4, *test_data)
+
+
 if __name__ == '__main__':
     pytest.main(['-vv', '--durations=10', '-q', '--tb=line', '-x', '204 Count Primes.py'])
+    # pytest.main(['-vv', '-x','204 Count Primes.py'])
