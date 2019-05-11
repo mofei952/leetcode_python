@@ -29,6 +29,12 @@ class Solution:
             num = t
         return num
 
+    def addDigits2(self, num: int) -> int:
+        return (num - 1) % 9 + 1 if num else 0
+
 
 if __name__ == '__main__':
-    print(Solution().addDigits(38))
+    for i in range(50):
+        # print(i, Solution().addDigits2(i), Solution().addDigits(i))
+        if Solution().addDigits2(i) != Solution().addDigits(i):
+            print(i)
