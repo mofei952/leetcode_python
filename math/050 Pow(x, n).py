@@ -108,6 +108,28 @@ class Solution:
 
         return ans
 
+    """
+    # c实现
+    double myPow(double x, int n){
+        if(n == 0)
+            return 1;
+        long m = n;
+        if(m < 0){
+            x = 1.0 / x;
+            m = -m;
+        }
+        double ans = 1.0;
+        while(m > 0){
+            if(m & 1){
+                ans *= x;
+            }
+            x *= x;
+            m >>= 1;
+        }
+        return ans;
+    }
+    """
+
 
 @pytest.fixture(scope="module")
 def test_data():
