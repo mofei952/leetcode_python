@@ -52,18 +52,18 @@ class Solution:
             dict[v] = i
 
         def buildTree_recursive(preorder_start, preorder_end, inorder_start, inorder_end):
-            if preorder_end <= preorder_start or inorder_end <= inorder_start:
+            if preorder_end < preorder_start or inorder_end < inorder_start:
                 return None
             val = preorder[preorder_start]
             node = TreeNode(val)
             index = dict[val]
-            node.left = buildTree_recursive(preorder_start + 1, preorder_start + (index - inorder_start) + 1,
-                                            inorder_start, index)
-            node.right = buildTree_recursive(preorder_start + (index - inorder_start) + 1, preorder_end,
-                                             index + 1, inorder_end)
+            node.left = buildTree_recursive(preorder_start + 1, preorder_start + (index - inorder_start), inorder_start,
+                                            index - 1)
+            node.right = buildTree_recursive(preorder_start + (index - inorder_start) + 1, preorder_end, index + 1,
+                                             inorder_end)
             return node
 
-        tree = buildTree_recursive(0, len(preorder), 0, len(inorder))
+        tree = buildTree_recursive(0, len(preorder) - 1, 0, len(inorder) - 1)
         return tree
 
 
