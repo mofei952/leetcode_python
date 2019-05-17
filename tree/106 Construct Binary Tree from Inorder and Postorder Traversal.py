@@ -40,7 +40,7 @@ class Solution:
         node.right = self.buildTree(inorder[index + 1:], postorder[index:-1])
         return node
 
-    def buildTree2(self, inorder, postorder):
+    def buildTree2(self, inorder: List[int], postorder: List[int]) -> TreeNode:
         """根据中序遍历和后序遍历，构造二叉树"""
         if not inorder or not postorder:
             return None
