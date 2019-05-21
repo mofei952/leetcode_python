@@ -22,6 +22,7 @@ Given binary tree [3,9,20,null,null,15,7],
    15   7
 return its depth = 3.
 """
+
 import random
 
 import pytest
@@ -35,23 +36,23 @@ class Solution:
         """数的最大深度"""
         if not root:
             return 0
-        stack = [root]
+        queue = [root]
         depth = 0
-        while stack:
+        while queue:
             depth += 1
             t = []
-            for node in stack:
+            for node in queue:
                 if node.left:
                     t.append(node.left)
                 if node.right:
                     t.append(node.right)
-            stack = t
+            queue = t
         return depth
 
     def maxDepth2(self, root: TreeNode) -> int:
         if not root:
             return 0
-        return max(self.maxDepth2(root.left), self.maxDepth2(root.right)) + 1
+        return 1 + max(self.maxDepth2(root.left), self.maxDepth2(root.right))
 
 
 @pytest.fixture(scope="module")
@@ -62,11 +63,11 @@ def test_data():
     res_list = [
         3,
     ]
-    for i in range(0, 2999):
+    for i in range(0, 299):
         v = TreeNode.create_tree([random.randint(0, i * 10) for i in range(i)])
         params_list.append((v,))
         res_list.append(Solution().maxDepth(v))
-    return params_list, res_list, 1
+    return params_list, res_list, 100
 
 
 def test_007(test_data):
@@ -79,4 +80,3 @@ def test_007_2(test_data):
 
 if __name__ == '__main__':
     pytest.main(['-vv', '--durations=10', '-q', '--tb=line', '-x', '104 Maximum Depth of Binary Tree.py'])
-    # pytest.main(['-x', '009 Palindrome Number.py'])
