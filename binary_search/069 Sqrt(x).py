@@ -43,11 +43,21 @@ class Solution:
                 high = mid - 1
         return high
 
+    def mySqrt3(self, x: int) -> int:
+        if not x:
+            return 0
+        val = x
+        next_val = (val + x / val) / 2
+        while val - next_val > 0.0001:
+            val = next_val
+            next_val = (val + x / val) / 2
+        return int(next_val)
+
 
 if __name__ == '__main__':
     a = [0] * 30
     for i in range(0, 500):
-        res = Solution().mySqrt2(i)
+        res = Solution().mySqrt3(i)
         a[res] += 1
         # print(i, res)
     print(a)
