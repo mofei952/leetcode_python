@@ -31,6 +31,9 @@ enention -> exention (replace 'n' with 'x')
 exention -> exection (replace 'n' with 'c')
 exection -> execution (insert 'u')
 """
+import pytest
+
+from commons import func_test
 
 
 class Solution:
@@ -50,14 +53,56 @@ class Solution:
             for j in range(1, m + 1):
                 t = 0 if word1[i - 1] == word2[j - 1] else 1
                 dp[i][j] = min(dp[i - 1][j - 1] + t, dp[i][j - 1] + 1, dp[i - 1][j] + 1)
-        # for row in dp:
-        #     print(row)
+        for row in dp:
+            print(['%02d' % i for i in row])
         return dp[-1][-1]
+
+    def minDistance2(self, word1: str, word2: str) -> int:
+        n = len(word1)
+        m = len(word2)
+        if not n:
+            return m
+        if not m:
+            return n
+        dp = [i for i in range(m + 1)]
+        dp2 = [0] * (m + 1)
+        for i in range(1, n + 1):
+            dp2[0] = i
+            for j in range(1, m + 1):
+                if word1[i - 1] == word2[j - 1]:
+                    dp2[j] = dp[j - 1]
+                else:
+                    dp2[j] = min(dp[j - 1] + 1, dp2[j - 1] + 1, dp[j] + 1)
+            dp, dp2 = dp2, dp
+        return dp[-1]
+
+
+@pytest.fixture(scope="module")
+def test_data():
+    params_list = [
+        ('horse', 'ros'),
+        ('intention', 'execution'),
+        ('', ''),
+        ('a', 'b'),
+        ('pneumonoultramicroscopicsilicovolcanoconiosis', 'ultramicroscopically'),
+    ]
+    res_list = [
+        3,
+        5,
+        0,
+        1,
+        27
+    ]
+    return params_list, res_list, 100
+
+
+def test_72(test_data):
+    func_test(Solution().minDistance, *test_data)
+
+
+def test_72_2(test_data):
+    func_test(Solution().minDistance2, *test_data)
 
 
 if __name__ == '__main__':
-    print(Solution().minDistance('horse', 'ros'))
-    print(Solution().minDistance('intention', 'execution'))
-    print(Solution().minDistance('', ''))
-    print(Solution().minDistance('a', 'b'))
-    print(Solution().minDistance("pneumonoultramicroscopicsilicovolcanoconiosis", "ultramicroscopically"))
+    pytest.main(['-vv', '--durations=10', '-q', '--tb=line', '-x', '072 Edit Distance.py'])
