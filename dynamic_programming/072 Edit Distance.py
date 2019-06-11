@@ -31,6 +31,9 @@ enention -> exention (replace 'n' with 'x')
 exention -> exection (replace 'n' with 'c')
 exection -> execution (insert 'u')
 """
+
+import heapq
+
 import pytest
 
 from commons import func_test
@@ -53,8 +56,6 @@ class Solution:
             for j in range(1, m + 1):
                 t = 0 if word1[i - 1] == word2[j - 1] else 1
                 dp[i][j] = min(dp[i - 1][j - 1] + t, dp[i][j - 1] + 1, dp[i - 1][j] + 1)
-        for row in dp:
-            print(['%02d' % i for i in row])
         return dp[-1][-1]
 
     def minDistance2(self, word1: str, word2: str) -> int:
@@ -72,9 +73,98 @@ class Solution:
                 if word1[i - 1] == word2[j - 1]:
                     dp2[j] = dp[j - 1]
                 else:
-                    dp2[j] = min(dp[j - 1] + 1, dp2[j - 1] + 1, dp[j] + 1)
+                    dp2[j] = min(dp[j - 1], dp2[j - 1], dp[j]) + 1
             dp, dp2 = dp2, dp
         return dp[-1]
+
+    def minDistance3(self, word1: str, word2: str) -> int:
+        n = len(word1)
+        m = len(word2)
+        if word1 == word2:
+            return 0
+        if not n:
+            return m
+        if not m:
+            return n
+        dp = [i for i in range(m + 1)]
+        for i in range(1, n + 1):
+            pre = dp[0]
+            dp[0] = i
+            for j in range(1, m + 1):
+                temp = dp[j]
+                if word1[i - 1] == word2[j - 1]:
+                    dp[j] = pre
+                else:
+                    dp[j] = min(pre, dp[j - 1], dp[j]) + 1
+                pre = temp
+        return dp[-1]
+
+    def minDistance4(self, word1, word2):
+        seen = set()
+        min_distance = max(len(word1), len(word2))
+
+        def recursive(w1, w2, d):
+            nonlocal min_distance
+            if d > min_distance:
+                return
+            if (w1, w2, d) in seen:
+                return
+            seen.add((w1, w2, d))
+            if not w1:
+                min_distance = min(d + len(w2), min_distance)
+                return
+            if not w2:
+                min_distance = min(d + len(w1), min_distance)
+                return
+            if w1 == w2:
+                min_distance = min(d, min_distance)
+                return
+            while w1 and w2 and w1[-1] == w2[-1]:
+                w1 = w1[:-1]
+                w2 = w2[:-1]
+            recursive(w1[:-1], w2[:-1], d + 1)
+            recursive(w1, w2[:-1], d + 1)
+            recursive(w1[:-1], w2, d + 1)
+
+        recursive(word1, word2, 0)
+        return min_distance
+
+    def minDistance5(self, word1, word2):
+        seen = set()
+        queue = [(0, word1, word2)]
+        while queue:
+            min_item, min_index = queue[0], 0
+            for i in range(1, len(queue)):
+                if queue[i] < min_item:
+                    min_item = queue[i]
+                    min_index = i
+            distance, w1, w2 = queue.pop(min_index)
+            if w1 == w2:
+                return distance
+            if (w1, w2) not in seen:
+                seen.add((w1, w2))
+                while w1 and w2 and w1[-1] == w2[-1]:
+                    w1 = w1[:-1]
+                    w2 = w2[:-1]
+                queue.append((distance + 1, w1, w2[:-1]))
+                queue.append((distance + 1, w1[:-1], w2))
+                queue.append((distance + 1, w1[:-1], w2[:-1]))
+
+    def minDistance6(self, word1, word2):
+        seen = set()
+        heap = [(0, word1, word2)]
+        while heap:
+            distance, w1, w2 = heapq.heappop(heap)
+            if w1 == w2:
+                return distance
+            if (w1, w2) not in seen:
+                seen.add((w1, w2))
+                while w1 and w2 and w1[-1] == w2[-1]:
+                    w1 = w1[:-1]
+                    w2 = w2[:-1]
+                heapq.heappush(heap, (distance + 1, w1, w2[:-1]))
+                heapq.heappush(heap, (distance + 1, w1[:-1], w2))
+                heapq.heappush(heap, (distance + 1, w1[:-1], w2[:-1]))
 
 
 @pytest.fixture(scope="module")
@@ -84,16 +174,15 @@ def test_data():
         ('intention', 'execution'),
         ('', ''),
         ('a', 'b'),
-        ('pneumonoultramicroscopicsilicovolcanoconiosis', 'ultramicroscopically'),
+        ('abcdefghijklmnopqrstuvwxyz', 'abcdefghijklmnopqrstuvwxy'),
+        # ('pneumonoultramicroscopicsilicovolcanoconiosis', 'ultramicroscopically'),
     ]
     res_list = [
-        3,
-        5,
-        0,
-        1,
-        27
     ]
-    return params_list, res_list, 100
+    for i in params_list:
+        r = Solution().minDistance(*i)
+        res_list.append(r)
+    return params_list, res_list, 1000
 
 
 def test_72(test_data):
@@ -102,6 +191,22 @@ def test_72(test_data):
 
 def test_72_2(test_data):
     func_test(Solution().minDistance2, *test_data)
+
+
+def test_72_3(test_data):
+    func_test(Solution().minDistance3, *test_data)
+
+
+def test_72_4(test_data):
+    func_test(Solution().minDistance4, *test_data)
+
+
+def test_72_5(test_data):
+    func_test(Solution().minDistance5, *test_data)
+
+
+def test_72_6(test_data):
+    func_test(Solution().minDistance6, *test_data)
 
 
 if __name__ == '__main__':
