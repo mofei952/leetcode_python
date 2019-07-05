@@ -48,11 +48,11 @@ class Solution:
             if start == len(candidates):
                 return
             for i in range(start, len(candidates)):
-                if i != start and candidates[i] == candidates[i-1]:
-                    continue
                 candidate = candidates[i]
                 if candidate > target:
                     break
+                if i != start and candidate == candidates[i-1]:
+                    continue
                 nums.append(candidate)
                 dfs(i + 1, nums, target - candidate)
                 nums.pop()

@@ -58,4 +58,7 @@ class Solution:
 
 
 if __name__ == '__main__':
-    print(Solution().solveNQueens(4))
+    for i in range(11):
+        res = Solution().solveNQueens(i)
+        print(len(res), res)
+    # print(Solution().solveNQueens(4))
