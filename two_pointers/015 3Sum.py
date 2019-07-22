@@ -22,6 +22,7 @@ A solution set is:
 ]
 """
 
+from bisect import bisect_left, bisect_right
 from collections import defaultdict
 from typing import List
 
@@ -83,9 +84,33 @@ class Solution:
 
         return result
 
+    def threeSum3(self, nums: List[int]) -> List[List[int]]:
+        result = []
+        counts = defaultdict(int)
+        for i in nums:
+            counts[i] += 1
+        nums = sorted(counts)
+        for i, num in enumerate(nums):
+            if counts[num] >= 2:
+                if num == 0:
+                    if counts[num] >= 3:
+                        result.append([0, 0, 0])
+                else:
+                    if (-2 * num) in nums:
+                        result.append([num, num, -2 * num])
+            if num < 0:
+                target = -num
+                left = bisect_left(nums, (target - nums[-1]), i + 1)
+                right = bisect_right(nums, (target // 2), left)
+                for i in nums[left:right]:
+                    j = target - i
+                    if j in counts and j != i:
+                        result.append([num, i, j])
+        return result
+
 
 if __name__ == '__main__':
-    print(Solution().threeSum2([1, -1]))
-    print(Solution().threeSum2([0, 0, 0, 0]))
-    print(Solution().threeSum2([-1, 0, 1, 2, -1, -4]))
-    print(Solution().threeSum2([-4, -2, -2, -2, 0, 1, 2, 2, 2, 3, 3, 4, 4, 6, 6]))
+    print(Solution().threeSum3([1, -1]))
+    print(Solution().threeSum3([0, 0, 0, 0]))
+    print(Solution().threeSum3([-1, 0, 1, 2, -1, -4]))
+    print(Solution().threeSum3([-4, -2, -2, -2, 0, 1, 2, 2, 2, 3, 3, 4, 4, 6, 6]))
