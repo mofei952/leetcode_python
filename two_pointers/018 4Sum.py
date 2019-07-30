@@ -107,11 +107,25 @@ class Solution:
         if len(nums) < 4:
             return []
         nums.sort()
+
+        nums2 = []
+        cur = nums[0]
+        count = 0
+        for i in range(0, len(nums)):
+            if nums[i] == cur:
+                count += 1
+            else:
+                count = 1
+                cur = nums[i]
+            if count <= 4:
+                nums2.append(cur)
+        nums = nums2
+
         min_ = nums[0] + nums[1]
         max_ = nums[-2] + nums[-1]
         left = max(min_, target - max_)
         right = min(max_, target - min_)
-        map = defaultdict(list)
+        dict_ = defaultdict(list)
         for i in range(len(nums)):
             for j in range(i + 1, len(nums)):
                 value = nums[i] + nums[j]
@@ -119,20 +133,22 @@ class Solution:
                     continue
                 if value > right:
                     continue
-                map[value].append([i, j])
-        result = []
-        for v in map:
+                dict_[value].append([i, j])
+
+        result = set()
+        for v in dict_:
             v2 = target - v
-            if v2 not in map:
+            if v > v2:
                 continue
-            for i in map[v]:
-                for j in map[v2]:
+            if v2 not in dict_:
+                continue
+            for i in dict_[v]:
+                for j in dict_[v2]:
                     if not i[0] < i[1] < j[0] < j[1]:
                         continue
-                    array = [nums[i[0]], nums[i[1]], nums[j[0]], nums[j[1]]]
-                    if array not in result:
-                        result.append(array)
-        return sorted(result)
+                    array = (nums[i[0]], nums[i[1]], nums[j[0]], nums[j[1]])
+                    result.add(array)
+        return sorted([list(item) for item in result])
 
 
 # pytest -vv --durations=10 -q --tb=line "018 4Sum.py"
@@ -181,11 +197,4 @@ def test_018_3(test_data):
 
 
 if __name__ == '__main__':
-    # a = [-497, -494, -484, -477, -453, -453, -444, -442, -428, -420, -401, -393, -392, -381, -357, -357, -327, -323,
-    #           -306, -285, -284, -263, -262, -254, -243, -234, -208, -170, -166, -162, -158, -136, -133, -130, -119, -114,
-    #           -101, -100, -86, -66, -65, -6, 1, 3, 4, 11, 69, 77, 78, 107, 108, 108, 121, 123, 136, 137, 151, 153, 155, 166,
-    #           170, 175, 179, 211, 230, 251, 255, 266, 288, 306, 308, 310, 314, 321, 322, 331, 333, 334, 347, 349, 356, 357,
-    #           360, 361, 361, 367, 375, 378, 387, 387, 408, 414, 421, 435, 439, 440, 441, 470, 492], 1682
-    # print(Solution().fourSum(*a))
-    # print(sorted(Solution().fourSum3(*a)))
     pytest.main(['-vv', '--durations=10', '-q', '--tb=line', '-x', '018 4Sum.py'])
