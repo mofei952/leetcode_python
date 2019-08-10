@@ -28,11 +28,10 @@ class Solution:
         for i in range(len(nums) - 1, 0, -1):
             if nums[i] > nums[i - 1]:
                 # nums[i:]中 比nums[i-1]大的并且最接近nums[i-1], 和nums[i-1]交换位置
-                closest_index = i
-                for j in range(i, len(nums)):
+                for j in range(len(nums) - 1, i - 1, -1):
                     if nums[j] > nums[i - 1]:
-                        closest_index = j
-                nums[closest_index], nums[i - 1] = nums[i - 1], nums[closest_index]
+                        nums[j], nums[i - 1] = nums[i - 1], nums[j]
+                        break
                 # nums[i:]进行排序
                 nums[i:] = sorted(nums[i:])
                 break
@@ -41,4 +40,7 @@ class Solution:
 
 
 if __name__ == '__main__':
+    from itertools import permutations
+    for i in permutations([1, 2, 3, 4]):
+        print(i)
     print(Solution().nextPermutation([1, 3, 2]))
