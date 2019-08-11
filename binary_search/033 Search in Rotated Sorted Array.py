@@ -21,6 +21,7 @@ Example 2:
 Input: nums = [4,5,6,7,0,1,2], target = 3
 Output: -1
 """
+
 from typing import List
 
 
@@ -46,10 +47,30 @@ class Solution:
                     high = mid - 1
         return -1
 
+    def search2(self, nums: List[int], target: int) -> int:
+        if not nums:
+            return -1
+        low, high = 0, len(nums) - 1
+        while low <= high:
+            mid = (low + high) // 2
+            if target == nums[mid]:
+                return mid
+            elif nums[low] <= nums[mid]:
+                if nums[low] <= target < nums[mid]:
+                    high = mid - 1
+                else:
+                    low = mid + 1
+            else:
+                if nums[mid] < target <= nums[high]:
+                    low = mid + 1
+                else:
+                    high = mid - 1
+        return -1
+
 
 if __name__ == '__main__':
     list = [4, 5, 6, 7, 0, 1, 2]
     test_list = [4, 5, 6, 7, 0, 1, 2, 8, 3]
     for i in test_list:
-        result = Solution().search(list, i)
+        result = Solution().search2(list, i)
         print(result)
