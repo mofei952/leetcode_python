@@ -90,7 +90,7 @@ class Solution:
 
         for i in range(n):
             for j in range(n // 2):
-                matrix[i][j], matrix[i][n-1-j] = matrix[i][n-1-j], matrix[i][j]
+                matrix[i][j], matrix[i][n - 1 - j] = matrix[i][n - 1 - j], matrix[i][j]
 
 
 if __name__ == '__main__':
