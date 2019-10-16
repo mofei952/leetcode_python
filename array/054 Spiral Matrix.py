@@ -80,12 +80,43 @@ class Solution:
 
         return [matrix[x][y] for x, y in pos_list]
 
+    def spiralOrder3(self, matrix: List[List[int]]) -> List[int]:
+        if not matrix:
+            return []
+
+        n, m = len(matrix), len(matrix[0])
+        row_start, row_end = 0, n - 1
+        col_start, col_end = 0, m - 1
+
+        result = []
+        while row_start <= row_end and col_start <= col_end:
+            for i in range(col_start, col_end + 1):
+                result.append(matrix[row_start][i])
+            row_start += 1
+
+            for i in range(row_start, row_end + 1):
+                result.append(matrix[i][col_end])
+            col_end -= 1
+
+            if row_start <= row_end:
+                for i in range(col_end, col_start - 1, -1):
+                    result.append(matrix[row_end][i])
+                row_end -= 1
+
+            if col_start <= col_end:
+                for i in range(row_end, row_start - 1, -1):
+                    result.append(matrix[i][col_start])
+                col_start += 1
+
+        return result
+
 
 if __name__ == '__main__':
     list_ = [
     ]
     print(Solution().spiralOrder(list_))
     print(Solution().spiralOrder2(list_))
+    print(Solution().spiralOrder3(list_))
 
     list_ = [
         [1, 2, 3],
@@ -94,6 +125,7 @@ if __name__ == '__main__':
     ]
     print(Solution().spiralOrder(list_))
     print(Solution().spiralOrder2(list_))
+    # print(Solution().spiralOrder3(list_))
 
     list_ = [
         [1, 2, 3, 4],
@@ -102,3 +134,15 @@ if __name__ == '__main__':
     ]
     print(Solution().spiralOrder(list_))
     print(Solution().spiralOrder2(list_))
+    print(Solution().spiralOrder3(list_))
+
+    list_ = [
+        [1, 2, 3, 4],
+        [5, 6, 7, 8],
+        [9, 10, 11, 12],
+        [13, 14, 15, 16],
+        [17, 18, 19, 20]
+    ]
+    print(Solution().spiralOrder(list_))
+    print(Solution().spiralOrder2(list_))
+    print(Solution().spiralOrder3(list_))
