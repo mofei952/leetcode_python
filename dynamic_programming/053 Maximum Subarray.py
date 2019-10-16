@@ -37,6 +37,19 @@ class Solution:
 
     @running_time
     def maxSubArray2(self, nums: List[int]) -> int:
+        if max(nums) <= 0:
+            return max(nums)
+        max_value = value = 0
+        for n in nums:
+            if value > 0:
+                value += n
+            else:
+                value = n
+            max_value = max(max_value, value)
+        return max_value
+
+    @running_time
+    def maxSubArray3(self, nums: List[int]) -> int:
         for i in range(1, len(nums)):
             if nums[i - 1] > 0:
                 nums[i] += nums[i - 1]
@@ -47,3 +60,4 @@ if __name__ == '__main__':
     list_ = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
     assert Solution().maxSubArray(list_) == 6
     assert Solution().maxSubArray2(list_) == 6
+    assert Solution().maxSubArray3(list_) == 6
