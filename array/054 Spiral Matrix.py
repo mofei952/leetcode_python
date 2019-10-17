@@ -30,8 +30,11 @@ Output: [1,2,3,4,8,12,11,10,9,5,6,7]
 
 from typing import List
 
+from commons import running_time
+
 
 class Solution:
+    @running_time
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
         if not matrix:
             return []
@@ -55,6 +58,7 @@ class Solution:
 
         return order
 
+    @running_time
     def spiralOrder2(self, matrix: List[List[int]]) -> List[int]:
         if not matrix:
             return []
@@ -80,6 +84,7 @@ class Solution:
 
         return [matrix[x][y] for x, y in pos_list]
 
+    @running_time
     def spiralOrder3(self, matrix: List[List[int]]) -> List[int]:
         if not matrix:
             return []
@@ -114,27 +119,27 @@ class Solution:
 if __name__ == '__main__':
     list_ = [
     ]
-    print(Solution().spiralOrder(list_))
-    print(Solution().spiralOrder2(list_))
-    print(Solution().spiralOrder3(list_))
+    assert Solution().spiralOrder(list_) == []
+    assert Solution().spiralOrder2(list_) == []
+    assert Solution().spiralOrder3(list_) == []
 
     list_ = [
         [1, 2, 3],
         [4, 5, 6],
         [7, 8, 9]
     ]
-    print(Solution().spiralOrder(list_))
-    print(Solution().spiralOrder2(list_))
-    # print(Solution().spiralOrder3(list_))
+    assert Solution().spiralOrder(list_) == [1, 2, 3, 6, 9, 8, 7, 4, 5]
+    assert Solution().spiralOrder2(list_) == [1, 2, 3, 6, 9, 8, 7, 4, 5]
+    assert Solution().spiralOrder3(list_) == [1, 2, 3, 6, 9, 8, 7, 4, 5]
 
     list_ = [
         [1, 2, 3, 4],
         [5, 6, 7, 8],
         [9, 10, 11, 12]
     ]
-    print(Solution().spiralOrder(list_))
-    print(Solution().spiralOrder2(list_))
-    print(Solution().spiralOrder3(list_))
+    assert Solution().spiralOrder(list_) == [1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7]
+    assert Solution().spiralOrder2(list_) == [1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7]
+    assert Solution().spiralOrder3(list_) == [1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7]
 
     list_ = [
         [1, 2, 3, 4],
@@ -143,6 +148,6 @@ if __name__ == '__main__':
         [13, 14, 15, 16],
         [17, 18, 19, 20]
     ]
-    print(Solution().spiralOrder(list_))
-    print(Solution().spiralOrder2(list_))
-    print(Solution().spiralOrder3(list_))
+    assert Solution().spiralOrder(list_) == [1, 2, 3, 4, 8, 12, 16, 20, 19, 18, 17, 13, 9, 5, 6, 7, 11, 15, 14, 10]
+    assert Solution().spiralOrder2(list_) == [1, 2, 3, 4, 8, 12, 16, 20, 19, 18, 17, 13, 9, 5, 6, 7, 11, 15, 14, 10]
+    assert Solution().spiralOrder3(list_) == [1, 2, 3, 4, 8, 12, 16, 20, 19, 18, 17, 13, 9, 5, 6, 7, 11, 15, 14, 10]
