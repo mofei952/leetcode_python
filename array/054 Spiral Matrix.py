@@ -89,9 +89,8 @@ class Solution:
         if not matrix:
             return []
 
-        n, m = len(matrix), len(matrix[0])
-        row_start, row_end = 0, n - 1
-        col_start, col_end = 0, m - 1
+        row_start, row_end = 0, len(matrix) - 1
+        col_start, col_end = 0, len(matrix[0]) - 1
 
         result = []
         while row_start <= row_end and col_start <= col_end:
@@ -117,37 +116,39 @@ class Solution:
 
 
 if __name__ == '__main__':
-    list_ = [
-    ]
-    assert Solution().spiralOrder(list_) == []
-    assert Solution().spiralOrder2(list_) == []
-    assert Solution().spiralOrder3(list_) == []
+    def assert_func(list_, result):
+        assert Solution().spiralOrder(list_) == result
+        assert Solution().spiralOrder2(list_) == result
+        assert Solution().spiralOrder3(list_) == result
 
-    list_ = [
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9]
-    ]
-    assert Solution().spiralOrder(list_) == [1, 2, 3, 6, 9, 8, 7, 4, 5]
-    assert Solution().spiralOrder2(list_) == [1, 2, 3, 6, 9, 8, 7, 4, 5]
-    assert Solution().spiralOrder3(list_) == [1, 2, 3, 6, 9, 8, 7, 4, 5]
 
-    list_ = [
-        [1, 2, 3, 4],
-        [5, 6, 7, 8],
-        [9, 10, 11, 12]
-    ]
-    assert Solution().spiralOrder(list_) == [1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7]
-    assert Solution().spiralOrder2(list_) == [1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7]
-    assert Solution().spiralOrder3(list_) == [1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7]
+    assert_func([], [])
 
-    list_ = [
-        [1, 2, 3, 4],
-        [5, 6, 7, 8],
-        [9, 10, 11, 12],
-        [13, 14, 15, 16],
-        [17, 18, 19, 20]
-    ]
-    assert Solution().spiralOrder(list_) == [1, 2, 3, 4, 8, 12, 16, 20, 19, 18, 17, 13, 9, 5, 6, 7, 11, 15, 14, 10]
-    assert Solution().spiralOrder2(list_) == [1, 2, 3, 4, 8, 12, 16, 20, 19, 18, 17, 13, 9, 5, 6, 7, 11, 15, 14, 10]
-    assert Solution().spiralOrder3(list_) == [1, 2, 3, 4, 8, 12, 16, 20, 19, 18, 17, 13, 9, 5, 6, 7, 11, 15, 14, 10]
+    assert_func(
+        [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9]
+        ],
+        [1, 2, 3, 6, 9, 8, 7, 4, 5]
+    )
+
+    assert_func(
+        [
+            [1, 2, 3, 4],
+            [5, 6, 7, 8],
+            [9, 10, 11, 12]
+        ],
+        [1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7]
+    )
+
+    assert_func(
+        [
+            [1, 2, 3, 4],
+            [5, 6, 7, 8],
+            [9, 10, 11, 12],
+            [13, 14, 15, 16],
+            [17, 18, 19, 20]
+        ],
+        [1, 2, 3, 4, 8, 12, 16, 20, 19, 18, 17, 13, 9, 5, 6, 7, 11, 15, 14, 10]
+    )
