@@ -8,7 +8,8 @@
 
 """
 A robot is located at the top-left corner of a m x n grid (marked 'Start' in the diagram below).
-The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid (marked 'Finish' in the diagram below).
+The robot can only move either down or right at any point in time.
+The robot is trying to reach the bottom-right corner of the grid (marked 'Finish' in the diagram below).
 How many possible unique paths are there?
 
 Above is a 7 x 3 grid. How many possible unique paths are there?
@@ -50,5 +51,8 @@ class Solution:
 
 
 if __name__ == '__main__':
+    print(Solution().uniquePaths(3, 2))
+    print(Solution().uniquePaths(7, 3))
+
     print(Solution().uniquePaths2(3, 2))
     print(Solution().uniquePaths2(7, 3))
