@@ -42,12 +42,12 @@ class Solution:
         return res[::-1]
 
     def plusOne2(self, digits: List[int]) -> List[int]:
-        i = len(digits) - 1
-        while i >= 0 and digits[i] == 9:
+        digits = digits.copy()
+        for i in range(len(digits) - 1, -1, -1):
+            if digits[i] == 9:
+                digits[i] += 1
+                break
             digits[i] = 0
-            i -= 1
-        if i != -1:
-            digits[i] += 1
         else:
             digits.insert(0, 1)
         return digits
@@ -67,6 +67,7 @@ def test_data():
     ]
     for i in range(100000):
         t = list(map(int, list(str(i))))
+        print(t)
         params_list.append((t,))
         res_list.append(Solution().plusOne(t))
     return params_list, res_list, 1
