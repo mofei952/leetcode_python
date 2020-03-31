@@ -42,9 +42,8 @@ class Solution:
         return res[::-1]
 
     def plusOne2(self, digits: List[int]) -> List[int]:
-        digits = digits.copy()
         for i in range(len(digits) - 1, -1, -1):
-            if digits[i] == 9:
+            if digits[i] != 9:
                 digits[i] += 1
                 break
             digits[i] = 0
