@@ -66,7 +66,6 @@ def test_data():
     ]
     for i in range(100000):
         t = list(map(int, list(str(i))))
-        print(t)
         params_list.append((t,))
         res_list.append(Solution().plusOne(t))
     return params_list, res_list, 1
