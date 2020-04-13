@@ -50,36 +50,36 @@ class Solution:
     def setZeroes(self, matrix: List[List[int]]) -> None:
         if not matrix:
             return
-        n = len(matrix)
-        m = len(matrix[0])
+        m = len(matrix)
+        n = len(matrix[0])
         rows = set()
         cols = set()
-        for i in range(n):
-            for j in range(m):
+        for i in range(m):
+            for j in range(n):
                 if not matrix[i][j]:
                     rows.add(i)
                     cols.add(j)
         for i in rows:
-            for j in range(m):
+            for j in range(n):
                 matrix[i][j] = 0
         for j in cols:
-            for i in range(n):
+            for i in range(m):
                 matrix[i][j] = 0
 
     def setZeroes2(self, matrix: List[List[int]]) -> None:
         if not matrix:
             return
-        n = len(matrix)
-        m = len(matrix[0])
+        m = len(matrix)
+        n = len(matrix[0])
         rows = set()
         cols = set()
-        for i in range(n):
-            for j in range(m):
+        for i in range(m):
+            for j in range(n):
                 if not matrix[i][j]:
                     rows.add(i)
                     cols.add(j)
-        for i in range(n):
-            for j in range(m):
+        for i in range(m):
+            for j in range(n):
                 if i in rows or j in cols:
                     matrix[i][j] = 0
 
@@ -95,7 +95,7 @@ def test_data():
         None
     ]
     for i in range(3, 20):
-        param = [[random.randint(0, i) for _ in range(i)] for _ in range(i)]
+        param = [[random.randint(0, i * i) for _ in range(i)] for _ in range(i)]
         params_list.append((param,))
         res_list.append(None)
     return params_list, res_list, 1000
@@ -110,8 +110,9 @@ def test_73_2(test_data):
 
 
 if __name__ == '__main__':
+    data = [[0, 1, 2, 0], [3, 4, 5, 2], [1, 3, 1, 5]]
+    Solution().setZeroes(data)
+    for i in data:
+        print(i)
+
     pytest.main(['-vv', '--durations=10', '-q', '--tb=line', '-x', '073 Set Matrix Zeroes.py'])
-    # data = [[0, 1, 2, 0], [3, 4, 5, 2], [1, 3, 1, 5]]
-    # Solution().setZeroes(data)
-    # for i in data:
-    #     print(i)
