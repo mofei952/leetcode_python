@@ -30,12 +30,13 @@ from typing import List
 
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
-        def dfs(index, temp):
+        def dfs(index, temp_list):
             if index == len(nums):
-                result.append(list(temp))
+                result.append(list(temp_list))
                 return
-            dfs(index + 1, temp)
-            dfs(index + 1, temp + [nums[index]])
+            dfs(index + 1, temp_list)
+            dfs(index + 1, temp_list + [nums[index]])
+            pass
 
         result = []
         dfs(0, [])
@@ -44,10 +45,7 @@ class Solution:
     def subsets2(self, nums: List[int]) -> List[List[int]]:
         result = [[]]
         for num in nums:
-            temp_list = []
-            for subset in result:
-                temp_list.append(subset + [num])
-            result.extend(temp_list)
+            result.extend([subset + [num] for subset in result])
         return result
 
 
