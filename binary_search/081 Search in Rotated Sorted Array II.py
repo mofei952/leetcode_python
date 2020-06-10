@@ -59,9 +59,12 @@ if __name__ == '__main__':
     print()
 
     print(Solution().search([1, 1, 3, 1], 3))
-    print()
     print(Solution().search([1, 3, 1, 1, 1], 3))
-    print()
     print(Solution().search([3, 1], 1))
-    print()
     print(Solution().search([3, 1, 1], 3))
+    print()
+    
+    print(Solution().search([1, 0, 1, 1, 1], 2))
+    print(Solution().search([1, 1, 1, 2, 1], 2))
+    print(Solution().search([1, 2, 1, 1, 1], 2))
+    print(Solution().search([1, 1, 1, 0, 1], 2))
