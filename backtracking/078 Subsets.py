@@ -36,7 +36,6 @@ class Solution:
                 return
             dfs(index + 1, temp_list)
             dfs(index + 1, temp_list + [nums[index]])
-            pass
 
         result = []
         dfs(0, [])
