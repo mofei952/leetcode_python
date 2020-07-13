@@ -33,7 +33,6 @@ from tree.tree_node import TreeNode
 
 class Solution:
     def buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
-        """根据先序遍历和中序遍历，构造二叉树"""
         if not preorder or not inorder:
             return None
         val = preorder[0]
@@ -44,26 +43,25 @@ class Solution:
         return node
 
     def buildTree2(self, preorder: List[int], inorder: List[int]) -> TreeNode:
-        """根据先序遍历和中序遍历，构造二叉树"""
+        preorder = list(preorder)
         if not preorder or not inorder:
             return None
-        dict = {}
-        for i, v in enumerate(inorder):
-            dict[v] = i
+        
+        inorder_indexes = {v: i for i, v in enumerate(inorder)}
 
-        def buildTree_recursive(preorder_start, preorder_end, inorder_start, inorder_end):
-            if preorder_end < preorder_start or inorder_end < inorder_start:
+        def buildTree_recursive(left, right):
+            if left > right:
                 return None
-            val = preorder[preorder_start]
+
+            val = preorder.pop(0)
             node = TreeNode(val)
-            index = dict[val]
-            node.left = buildTree_recursive(preorder_start + 1, preorder_start + (index - inorder_start), inorder_start,
-                                            index - 1)
-            node.right = buildTree_recursive(preorder_start + (index - inorder_start) + 1, preorder_end, index + 1,
-                                             inorder_end)
+
+            node.left = buildTree_recursive(left, inorder_indexes[val] - 1)
+            node.right = buildTree_recursive(inorder_indexes[val] + 1, right)
+
             return node
 
-        tree = buildTree_recursive(0, len(preorder) - 1, 0, len(inorder) - 1)
+        tree = buildTree_recursive(0, len(inorder) - 1)
         return tree
 
 
@@ -87,4 +85,5 @@ def test_105_2(test_data):
 
 
 if __name__ == '__main__':
-    pytest.main(['-vv', '--durations=10', '-q', '105 Construct Binary Tree from Preorder and Inorder Traversal.py'])
+    pytest.main(['-vv', '--durations=10', '-q',
+                 'tree/105 Construct Binary Tree from Preorder and Inorder Traversal.py'])
