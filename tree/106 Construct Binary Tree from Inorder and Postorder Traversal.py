@@ -30,7 +30,6 @@ from tree.tree_node import TreeNode
 
 class Solution:
     def buildTree(self, inorder: List[int], postorder: List[int]) -> TreeNode:
-        """根据中序遍历和后序遍历，构造二叉树"""
         if not inorder or not postorder:
             return None
         val = postorder[-1]
@@ -41,24 +40,24 @@ class Solution:
         return node
 
     def buildTree2(self, inorder: List[int], postorder: List[int]) -> TreeNode:
-        """根据中序遍历和后序遍历，构造二叉树"""
         if not inorder or not postorder:
-            return None
-        dict = {v: i for i, v in enumerate(inorder)}
+            return
 
-        def buildTree_recursive(inorder_start, inorder_end, postorder_start, postorder_end):
-            if inorder_end < inorder_start or postorder_end < postorder_start:
-                return None
-            val = postorder[postorder_end]
+        inorder_indexes = {v: i for i, v in enumerate(inorder)}
+
+        def buildTree_recursive(left, right):
+            if left > right:
+                return
+
+            val = postorder.pop()
             node = TreeNode(val)
-            index = dict[val]
-            node.left = buildTree_recursive(inorder_start, index - 1,
-                                            postorder_start, postorder_start + (index - inorder_start) - 1)
-            node.right = buildTree_recursive(index + 1, inorder_end,
-                                             postorder_start + (index - inorder_start), postorder_end - 1)
+
+            node.right = buildTree_recursive(inorder_indexes[val] + 1, right)
+            node.left = buildTree_recursive(left, inorder_indexes[val] - 1)
+
             return node
 
-        tree = buildTree_recursive(0, len(inorder) - 1, 0, len(postorder) - 1)
+        tree = buildTree_recursive(0, len(inorder) - 1)
         return tree
 
 
