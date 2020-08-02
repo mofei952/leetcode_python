@@ -35,36 +35,20 @@ class Solution:
         dp = [[0 for j in range(len(triangle[i]))] for i in range(len(triangle))]
         dp[0][0] = triangle[0][0]
         for i in range(1, len(dp)):
-            for j in range(len(dp[i])):
-                dp[i][j] = triangle[i][j]
-                if j == 0:
-                    dp[i][j] += dp[i - 1][j]
-                elif j == len(dp[i]) - 1:
-                    dp[i][j] += dp[i - 1][j - 1]
-                else:
-                    dp[i][j] += min(dp[i - 1][j - 1], dp[i - 1][j])
-        # for i in dp:
-        #     print(i)
-        return min(dp[-1])
-
-    def minimumTotal2(self, triangle: List[List[int]]) -> int:
-        dp = [[0 for j in range(len(triangle[i]))] for i in range(len(triangle))]
-        dp[0][0] = triangle[0][0]
-        for i in range(1, len(dp)):
             dp[i][0] = triangle[i][0] + dp[i - 1][0]
             dp[i][-1] = triangle[i][-1] + dp[i - 1][-1]
             for j in range(1, len(dp[i]) - 1):
                 dp[i][j] = triangle[i][j] + min(dp[i - 1][j - 1], dp[i - 1][j])
         return min(dp[-1])
 
-    def minimumTotal3(self, triangle: List[List[int]]) -> int:
+    def minimumTotal2(self, triangle: List[List[int]]) -> int:
         dp = [v for v in triangle[-1]]
         for i in range(len(triangle) - 2, -1, -1):
             for j in range(i + 1):
                 dp[j] = min(dp[j], dp[j + 1]) + triangle[i][j]
         return dp[0]
 
-    def minimumTotal4(self, triangle: List[List[int]]) -> int:
+    def minimumTotal3(self, triangle: List[List[int]]) -> int:
         dp = triangle[-1]
         for i in range(len(triangle) - 2, -1, -1):
             for j in range(i + 1):
@@ -103,11 +87,7 @@ def test_120_3(test_data):
     func_test(Solution().minimumTotal3, *test_data)
 
 
-def test_120_4(test_data):
-    func_test(Solution().minimumTotal4, *test_data)
-
-
 if __name__ == '__main__':
     # print(Solution().minimumTotal([[2], [7, 8], [18, 17, 21], [33, 28, 35, 37]]))
     # print(Solution().minimumTotal4([[2], [7, 8], [18, 17, 21], [33, 28, 35, 37]]))
-    pytest.main(['-vv', '--durations=10', '-q', '--tb=line', '-x', '120 Triangle.py'])
+    pytest.main(['-vv', '--durations=10', '-q', '--tb=line', '-x', 'dynamic_programming/120 Triangle.py'])
