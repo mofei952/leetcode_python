@@ -37,8 +37,33 @@ class Solution:
             buy_second = min(buy_second, prices[i] - profit_first)
         return profit_second
 
+    def maxProfit2(self, prices: List[int]) -> int:
+        n = len(prices)
+        max_profit = 0
+        
+        min_price = float('inf')
+        dp = [0] * n
+        for i in range(n):
+            if prices[i] < min_price:
+                min_price = prices[i]
+            elif prices[i] - min_price > max_profit:
+                max_profit = prices[i] - min_price
+            dp[i] = max_profit
+
+        max_price = 0
+        for i in range(n-1, 0, -1):
+            if prices[i] > max_price:
+                max_price = prices[i]
+                continue
+            curr_max = max_price - prices[i]
+            if curr_max + dp[i - 1] > max_profit:
+                max_profit = curr_max + dp[i - 1]
+
+        return max_profit
+
 
 if __name__ == "__main__":
-    print(Solution().maxProfit([3, 3, 5, 0, 0, 3, 1, 4]))
-    print(Solution().maxProfit([1, 2, 3, 4, 5]))
-    print(Solution().maxProfit([7, 6, 4, 3, 1]))
+    print(Solution().maxProfit2([3, 3, 5, 0, 0, 3, 1, 4]))
+    print(Solution().maxProfit2([1, 2, 3, 4, 5]))
+    print(Solution().maxProfit2([7, 6, 4, 3, 1]))
+    print(Solution().maxProfit2([4,7,2,1,11]))
