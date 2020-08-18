@@ -41,14 +41,13 @@ class Solution:
         words = set(wordList)
         if endWord not in wordList:
             return []
-        
+
         graph = defaultdict(set)
         word_length = len(wordList[0])
         bq = {beginWord}
         eq = {endWord}
         end = False
         rev = False
-
         while bq and not end:
             temp = set()
             words -= bq
@@ -66,16 +65,19 @@ class Solution:
             if len(bq) > len(eq):
                 bq, eq, rev = eq, bq, not rev
 
+        result = []
+        arr = []
         def bt(x):
+            arr.append(x)
             if x == endWord:
-                return [[x]]
-            res = []
-            for y in graph[x]:
-                for rest in bt(y):
-                    res.append([x] + rest)
-            return res
-
-        return bt(beginWord)
+                result.append(list(arr))
+            else:
+                for y in graph[x]:
+                    bt(y)
+            arr.pop()
+        bt(beginWord)
+        
+        return result
 
 
 if __name__ == "__main__":
