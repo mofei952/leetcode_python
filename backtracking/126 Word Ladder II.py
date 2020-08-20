@@ -34,6 +34,7 @@ Explanation: The endWord "cog" is not in wordList, therefore no possible transfo
 
 from typing import List
 from collections import defaultdict
+from collections import deque
 
 
 class Solution:
@@ -67,6 +68,7 @@ class Solution:
 
         result = []
         arr = []
+
         def bt(x):
             arr.append(x)
             if x == endWord:
@@ -76,14 +78,43 @@ class Solution:
                     bt(y)
             arr.pop()
         bt(beginWord)
-        
+
+        return result
+
+    def findLadders2(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+        word_length = len(wordList[0])
+        adjacency_list = defaultdict(list)
+        for w in wordList:
+            for i in range(word_length):
+                key = w[:i] + '_' + w[i+1:]
+                adjacency_list[key].append(w)
+
+        result = []
+        q = deque()
+        q.append([beginWord])
+        visited = {}
+        while q:
+            arr = q.popleft()
+            x = arr[-1]
+
+            if x == endWord:
+                result.append(arr)
+                continue
+
+            for i in range(word_length):
+                k = x[:i] + '_' + x[i+1:]
+                for y in adjacency_list[k]:
+                    if y not in visited or len(arr) <= visited[y]:
+                        visited[y] = len(arr)
+                        q.append(arr + [y])
+
         return result
 
 
 if __name__ == "__main__":
-    print(Solution().findLadders("hit", "cog",
-                                 ["hot", "dot", "dog", "lot", "log", "cog"]))
-    print(Solution().findLadders("hit", "cog",
-                                 ["hot", "dot", "dog", "lot", "log"]))
-    print(Solution().findLadders("qa", "sq",
-                                 ["si", "go", "se", "cm", "so", "ph", "mt", "db", "mb", "sb", "kr", "ln", "tm", "le", "av", "sm", "ar", "ci", "ca", "br", "ti", "ba", "to", "ra", "fa", "yo", "ow", "sn", "ya", "cr", "po", "fe", "ho", "ma", "re", "or", "rn", "au", "ur", "rh", "sr", "tc", "lt", "lo", "as", "fr", "nb", "yb", "if", "pb", "ge", "th", "pm", "rb", "sh", "co", "ga", "li", "ha", "hz", "no", "bi", "di", "hi", "qa", "pi", "os", "uh", "wm", "an", "me", "mo", "na", "la", "st", "er", "sc", "ne", "mn", "mi", "am", "ex", "pt", "io", "be", "fm", "ta", "tb", "ni", "mr", "pa", "he", "lr", "sq", "ye"]))
+    print(Solution().findLadders2("hit", "cog",
+                                  ["hot", "dot", "dog", "lot", "log", "cog"]))
+    print(Solution().findLadders2("hit", "cog",
+                                  ["hot", "dot", "dog", "lot", "log"]))
+    print(Solution().findLadders2("qa", "sq",
+                                  ["si", "go", "se", "cm", "so", "ph", "mt", "db", "mb", "sb", "kr", "ln", "tm", "le", "av", "sm", "ar", "ci", "ca", "br", "ti", "ba", "to", "ra", "fa", "yo", "ow", "sn", "ya", "cr", "po", "fe", "ho", "ma", "re", "or", "rn", "au", "ur", "rh", "sr", "tc", "lt", "lo", "as", "fr", "nb", "yb", "if", "pb", "ge", "th", "pm", "rb", "sh", "co", "ga", "li", "ha", "hz", "no", "bi", "di", "hi", "qa", "pi", "os", "uh", "wm", "an", "me", "mo", "na", "la", "st", "er", "sc", "ne", "mn", "mi", "am", "ex", "pt", "io", "be", "fm", "ta", "tb", "ni", "mr", "pa", "he", "lr", "sq", "ye"]))
