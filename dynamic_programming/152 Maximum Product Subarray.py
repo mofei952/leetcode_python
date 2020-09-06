@@ -13,20 +13,29 @@ Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
 """
 
 from typing import List
+from itertools import accumulate
+from functools import reduce
 
 
 class Solution:
     def maxProduct(self, nums: List[int]) -> int:
-        dp = [0] * len(nums)
-        dp[0] = nums[0]
-        min_num = nums[0]
-        for i in range(1, len(nums)):
-            dp[i] = max(nums[i], dp[i-1]*nums[i], min_num*nums[i])
-            min_num = min(nums[i], dp[i-1]*nums[i], min_num*nums[i])
-        return max(dp)
+        max_num = min_num = 1
+        max_product = float('-inf')
+        for num in nums:
+            num1 = max_num * num
+            num2 = min_num * num
+            max_num = max(num, num1, num2)
+            min_num = min(num, num1, num2)
+            max_product = max(max_product, max_num)
+        return max_product
+
+    def maxProduct2(self, nums: List[int]) -> int:
+        max1 = max(accumulate(nums, lambda a, b: (a * b) or b))
+        max2 = max(accumulate(reversed(nums), lambda a, b: (a * b) or b))
+        return max(max1, max2)
 
 
 if __name__ == "__main__":
-    print(Solution().maxProduct([2, 3, -2, 4]))
-    print(Solution().maxProduct([-2, 0, -1]))
-    print(Solution().maxProduct([-2, 3, -4]))
+    print(Solution().maxProduct2([2, 3, -2, 4]))
+    print(Solution().maxProduct2([-2, 0, -1]))
+    print(Solution().maxProduct2([-2, 3, -4]))
