@@ -34,22 +34,14 @@ class Solution:
             return 0
         if len(nums) == 1:
             return nums[0]
-        
-        return max(self._rob(nums, 0, len(nums)-1), self._rob(nums, 1, len(nums)))
-    
-    def _rob(self, nums: List[int], low, high):
-        if high - low <= 2:
-            return max(nums[low: high])
 
-        dp = [0] * (high-low)
-        dp[0] = nums[low]
-        dp[1] = max(nums[low], nums[low+1])
+        def _rob(nums):
+            prev = curr = 0
+            for num in nums:
+                prev, curr = curr, max(prev+num, curr)
+            return curr
 
-        for i in range(2, high-low):
-            index = i+low
-            dp[i] = max(dp[i-1], dp[i-2]+nums[index])
-
-        return dp[-1]
+        return max(_rob(nums[1:]), _rob(nums[:-1]))
 
 
 if __name__ == "__main__":
