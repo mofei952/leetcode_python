@@ -32,6 +32,8 @@ class Solution:
     def rob(self, nums: List[int]) -> int:
         if not nums:
             return 0
+        if len(nums) == 1:
+            return nums[0]
 
         def _rob(nums):
             prev = curr = 0
@@ -46,4 +48,5 @@ if __name__ == "__main__":
     print(Solution().rob([2, 3, 2]))
     print(Solution().rob([1, 2, 3, 1]))
     print(Solution().rob([0]))
+    print(Solution().rob([1]))
     print(Solution().rob([0, 0]))
