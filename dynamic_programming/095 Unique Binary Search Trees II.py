@@ -43,5 +43,5 @@ class Solution:
 
 
 if __name__ == "__main__":
-    for tree in Solution().generateTrees(3):
+    for tree in Solution().generateTrees(4):
         print(tree)
