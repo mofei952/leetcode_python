@@ -26,7 +26,7 @@ class TreeNode:
                 queue.append(node.left)
                 queue.append(node.right)
         for i in range(level + 1):
-            s = ','.join(str(node.val).center(4, '-') if node else 'None' for node in res[i])
+            s = ','.join(str(node.val).center(4, '-') if node else '----' for node in res[i])
             print(s.center(2 ** level * 5))
             print()
         return ''
