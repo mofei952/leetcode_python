@@ -8,27 +8,36 @@ class TreeNode:
         self.right = None
 
     def __str__(self):
-        queue = [self]
-        res = defaultdict(list)
+        level_to_nodes_dict = defaultdict(list)
+        nodes = [self]
+        next_nodes = []
         level = 0
-        while queue:
-            node = queue.pop(0)
-            res[level].append(node)
-            if len(res[level]) >= 2 ** level:
-                if not any(res[level]):
-                    level -= 1
-                    break
-                level += 1
-            if not node:
-                queue.append(None)
-                queue.append(None)
-            else:
-                queue.append(node.left)
-                queue.append(node.right)
-        for i in range(level + 1):
-            s = ','.join(str(node.val).center(4, '-') if node else '----' for node in res[i])
-            print(s.center(2 ** level * 5))
-            print()
+        has_node = True
+        while has_node:
+            has_node = False
+            for node in nodes:
+                level_to_nodes_dict[level].append(node)
+                if not node:
+                    next_nodes.append(None)
+                    next_nodes.append(None)
+                else:
+                    next_nodes.append(node.left)
+                    next_nodes.append(node.right)
+                    if node.left or node.right:
+                        has_node = True
+            level += 1
+            nodes = next_nodes
+            next_nodes = []
+
+        col_count = 2**(level)-1
+        for i in range(level):
+            s = (' ' * (2**(level-i)-1)).join(str(node.val) if node else 'N' for node in level_to_nodes_dict[i])
+            print(s.center(col_count))
+            if i != level-1:
+                for j in range(2 ** (level-i-2)):
+                    a = '/' + ' ' * (2*j+1) + '\\'
+                    b = (' ' * (2 ** (level-i)-3-2*j)).join([a] * (2 ** i))
+                    print((b).center(col_count))
         return ''
 
     def __eq__(self, other):
