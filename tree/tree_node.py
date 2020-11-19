@@ -29,16 +29,18 @@ class TreeNode:
             nodes = next_nodes
             next_nodes = []
 
+        res = []
         col_count = 2**(level)-1
         for i in range(level):
             s = (' ' * (2**(level-i)-1)).join(str(node.val) if node else 'N' for node in level_to_nodes_dict[i])
-            print(s.center(col_count))
+            res.append(s.center(col_count))
             if i != level-1:
                 for j in range(2 ** (level-i-2)):
                     a = '/' + ' ' * (2*j+1) + '\\'
                     b = (' ' * (2 ** (level-i)-3-2*j)).join([a] * (2 ** i))
-                    print((b).center(col_count))
-        return ''
+                    res.append(b.center(col_count))
+
+        return '\n'.join(res)
 
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
