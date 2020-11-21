@@ -22,6 +22,7 @@ The above output corresponds to the 5 unique BST's shown below:
    2     1         2                 3
 """
 
+from functools import lru_cache
 from typing import List
 
 from tree.tree_node import TreeNode
@@ -29,19 +30,23 @@ from tree.tree_node import TreeNode
 
 class Solution:
     def generateTrees(self, n: int) -> List[TreeNode]:
+        @lru_cache(None)
         def generate(first, last):
             trees = []
             for root in range(first, last+1):
                 for left in generate(first, root-1):
                     for right in generate(root+1, last):
                         node = TreeNode(root)
-                        node.left = left
-                        node.right = right
+                        node.left, node.right = left, right
                         trees.append(node)
             return trees or [None]
-        return generate(1, n)
+        return generate(1, n) if n else []
 
 
 if __name__ == "__main__":
-    for tree in Solution().generateTrees(4):
-        print(tree)
+    import time
+    t = time.time()
+    trees = Solution().generateTrees(15)
+    print(time.time() - t)
+    # for tree in trees:
+    #     print(tree)
