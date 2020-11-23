@@ -39,22 +39,20 @@ class Solution:
         return dp[-1]
 
     def wordBreak2(self, s: str, wordDict: List[str]) -> bool:
-        if not wordDict:
-            return False
         words = set(wordDict)
-        max_length = max(len(w) for w in words)
+        max_length = max((len(w) for w in words), default=0)
         dp = [True]
         for i in range(1, len(s)+1):
-            dp.append(any(dp[j] and s[j:i] in words for j in range(max(i-max_length,0), i)))
+            dp.append(any(dp[j] and s[j:i] in words for j in range(max(i-max_length, 0), i)))
         return dp[-1]
-                    
 
 
 if __name__ == "__main__":
-    print(Solution().wordBreak('leetcode', ["leet", "code"]))
-    print(Solution().wordBreak('applepenapple', ["apple", "pen"]))
-    print(Solution().wordBreak('catsandog', ["cats", "dog", "sand", "and", "cat"]))
-    print(Solution().wordBreak('a', []))
-    print(Solution().wordBreak("dogs", ["dog", "s", "gs"]))
-    print(Solution().wordBreak("ccaccc", ["cc", "ac"]))
-    print(Solution().wordBreak("acccbccb", ["cc", "bc", "ac", "ca"]))
+    print(Solution().wordBreak2('leetcode', ["leet", "code"]))
+    print(Solution().wordBreak2('applepenapple', ["apple", "pen"]))
+    print(Solution().wordBreak2('catsandog', [
+          "cats", "dog", "sand", "and", "cat"]))
+    print(Solution().wordBreak2('a', []))
+    print(Solution().wordBreak2("dogs", ["dog", "s", "gs"]))
+    print(Solution().wordBreak2("ccaccc", ["cc", "ac"]))
+    print(Solution().wordBreak2("acccbccb", ["cc", "bc", "ac", "ca"]))
