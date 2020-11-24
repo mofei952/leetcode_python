@@ -38,6 +38,29 @@ class Solution:
 
         return max_length ** 2
 
+    def maximalSquare2(self, matrix: List[List[str]]) -> int:
+        if not matrix:
+            return 0
+
+        n = len(matrix)
+        m = len(matrix[0])
+
+        dp = [int(i) for i in matrix[0]]
+        max_length = max(dp)
+
+        for i in range(1, n):
+            prev = dp[0]
+            dp[0] = int(matrix[i][0])
+            max_length = max(max_length, dp[0])
+            for j in range(1, m):
+                if matrix[i][j] == '0':
+                    dp[j], prev = 0, dp[j]
+                else:
+                    dp[j], prev = min(prev, dp[j], dp[j-1]) + 1, dp[j]
+                    max_length = max(max_length, dp[j])
+
+        return max_length ** 2
+
 
 if __name__ == "__main__":
     print(Solution().maximalSquare([
