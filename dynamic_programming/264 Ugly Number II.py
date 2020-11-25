@@ -20,7 +20,7 @@ class Solution:
     def nthUglyNumber(self, n: int) -> int:
         dp = [1]
         num_set = set()
-        for _ in range(1690):
+        for _ in range(n):
             x = heapq.heappop(dp)
             if 2*x not in num_set:
                 heapq.heappush(dp, 2*x)
