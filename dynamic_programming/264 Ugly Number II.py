@@ -62,7 +62,7 @@ class Solution:
         if self.dp:
             return self.dp[n-1]
         
-        dp = [1]
+        self.dp = dp = [1]
         i2 = i3 = i5 = 0
         
         for _ in range(1689):
@@ -74,7 +74,7 @@ class Solution:
                 i3 += 1
             if x == dp[i5]*5:
                 i5 += 1
-                
+        
         return dp[n-1]
 
 
@@ -83,6 +83,20 @@ if __name__ == "__main__":
     t = time.time()
     s = Solution()
     for i in range(1, 1691):
-        Solution().nthUglyNumber(i)
+        s.nthUglyNumber(i)
+        # print(i, s.nthUglyNumber2(i))
+    print(time.time() - t)
+    
+    t = time.time()
+    s = Solution()
+    for i in range(1, 1691):
+        s.nthUglyNumber2(i)
+        # print(i, s.nthUglyNumber2(i))
+    print(time.time() - t)
+    
+    t = time.time()
+    s = Solution()
+    for i in range(1, 1691):
+        s.nthUglyNumber3(i)
         # print(i, s.nthUglyNumber2(i))
     print(time.time() - t)
