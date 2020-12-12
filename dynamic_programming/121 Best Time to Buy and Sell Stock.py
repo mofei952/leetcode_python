@@ -26,10 +26,10 @@ class Solution:
         min_value = prices[0]
         max_profit = 0
         for i in range(1, len(prices)):
-            if prices[i] - min_value > max_profit:
-                max_profit = prices[i] - min_value
             if prices[i] < min_value:
                 min_value = prices[i]
+            elif prices[i] - min_value > max_profit:
+                max_profit = prices[i] - min_value
         return max_profit
 
 if __name__ == "__main__":
