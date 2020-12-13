@@ -30,7 +30,13 @@ class Solution:
             dp[i] = min(dp[i-1], dp[i-2]) + cost[i]
         return min(dp[-1], dp[-2])
 
+    def minCostClimbingStairs2(self, cost: List[int]) -> int:
+        a, b = cost[0], cost[1]
+        for i in range(2, len(cost)):
+            a, b = b, min(a, b) + cost[i]
+        return min(a, b)
+
 
 if __name__ == "__main__":
-    print(Solution().minCostClimbingStairs([10, 15, 20]))
-    print(Solution().minCostClimbingStairs([1, 100, 1, 1, 1, 100, 1, 1, 100, 1]))
+    print(Solution().minCostClimbingStairs2([10, 15, 20]))
+    print(Solution().minCostClimbingStairs2([1, 100, 1, 1, 1, 100, 1, 1, 100, 1]))
