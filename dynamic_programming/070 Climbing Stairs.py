@@ -1,11 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-# @Author  : mofei
-# @Time    : 2019/6/3 20:43
-# @File    : 70 Climbing Stairs.py
-# @Software: PyCharm
-
 """
 You are climbing a stair case. It takes n steps to reach to the top.
 Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
@@ -37,7 +29,7 @@ class Solution:
 
     def climbStairs2(self, n):
         a, b = 1, 1
-        for i in range(1, n):
+        for _ in range(1, n):
             a, b = b, a + b
         return b
 
