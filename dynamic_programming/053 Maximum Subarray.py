@@ -37,16 +37,14 @@ class Solution:
 
     @running_time
     def maxSubArray2(self, nums: List[int]) -> int:
-        if max(nums) <= 0:
-            return max(nums)
-        max_value = value = 0
-        for n in nums:
-            if value > 0:
-                value += n
+        dp = [0] * len(nums)
+        dp[0] = nums[0]
+        for i in range(1, len(nums)):
+            if dp[i-1] > 0:
+                dp[i] = nums[i] + dp[i-1]
             else:
-                value = n
-            max_value = max(max_value, value)
-        return max_value
+                dp[i] = nums[i]
+        return max(dp)
 
     @running_time
     def maxSubArray3(self, nums: List[int]) -> int:
