@@ -25,22 +25,26 @@ Constraints:
 
 class Solution:
     def countVowelStrings(self, n: int) -> int:
-        dp = [[0] * 5 for i in range(n)]
-        for i in range(len(dp)):
-            for j in range(len(dp[i])):
-                if i == 0:
-                    dp[i][j] = j+1
-                elif j == 0:
-                    dp[i][j] = 1
-                else:
-                    dp[i][j] = dp[i-1][j] + dp[i][j-1]
-        # for i in dp:
-        #     print(i)
-        return dp[-1][-1]
+        dp = [1] * 5
+        for _ in range(1, n):
+            for j in range(1, 5):
+                dp[j] += dp[j-1]
+        return sum(dp)
+
+    def countVowelStrings2(self, n: int) -> int:
+        a = e = i = o = u = 1
+        for _ in range(1, n):
+            a, e, i, o = a+e+i+o+u, e+i+o+u, i+o+u, o+u
+            # o += u
+            # i += o
+            # e += i
+            # a += e
+        return a+e+i+o+u
+
+    def countVowelStrings3(self, n: int) -> int:
+        return (n+1)*(n+2)*(n+3)*(n+4)//24
 
 
 if __name__ == "__main__":
-    print(Solution().countVowelStrings(1))
-    print(Solution().countVowelStrings(2))
-    print(Solution().countVowelStrings(3))
-    print(Solution().countVowelStrings(4))
+    for n in range(1, 11):
+        print(n, Solution().countVowelStrings3(n))
