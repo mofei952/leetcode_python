@@ -14,20 +14,21 @@ Output: [["a"]]
 """
 
 from typing import List
+from functools import lru_cache
+from collections import defaultdict
 
 
 class Solution:
+
     def partition(self, s: str) -> List[List[str]]:
-        if len(s) == 1:
-            return [tuple([s])]
-        res = []
-        if ''.join(reversed(s)) == s:
-            res.append(tuple([s]))
-        for i in range(1, len(s)):
-            r1 = self.partition(s[0: i])
-            r2 = self.partition(s[i: len(s)])
-            res.extend([tuple(t1 + t2) for t1 in r1 for t2 in r2])
-        return list(set(res))
+        dp = [[] for _ in range(len(s))]
+        dp.insert(0, [[]])
+        for i in range(1, len(s)+1):
+            for j in range(i-1, -1, -1):
+                t = s[j: i]
+                if t == t[::-1]:
+                    dp[i].extend([d+[t] for d in dp[j]])
+        return dp[-1]
 
 
 if __name__ == '__main__':
