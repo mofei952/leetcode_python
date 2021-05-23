@@ -42,12 +42,26 @@ class Solution:
             #     print(line)
             # print()
         return dp[-1][-1]
-
+    
+    
+    def numDistinct2(self, s: str, t: str) -> int:
+        dp = [1] + [0] * len(t)
+        for i in range(1, len(s)+1):
+            prev = 1
+            for j in range(1, len(t)+1):
+                temp = dp[j]
+                if s[i-1] == t[j-1]:
+                    dp[j] += prev
+                prev = temp
+            # for line in dp:
+            #     print(line)
+            # print()
+        return dp[-1]
 
 if __name__ == '__main__':
-    print(Solution().numDistinct('rabbbit', 'rabbit'))
-    print(Solution().numDistinct('rabbbit', 'rabbbit'))
-    print(Solution().numDistinct('babgbag', 'bag'))
-    print(Solution().numDistinct('ddd', 'dd'))
-    print(Solution().numDistinct('aabb', 'abb'))
-    print(Solution().numDistinct('aacaacca', 'ca'))
+    print(Solution().numDistinct2('rabbbit', 'rabbit'))
+    print(Solution().numDistinct2('rabbbit', 'rabbbit'))
+    print(Solution().numDistinct2('babgbag', 'bag'))
+    print(Solution().numDistinct2('ddd', 'dd'))
+    print(Solution().numDistinct2('aabb', 'abb'))
+    print(Solution().numDistinct2('aacaacca', 'ca'))
