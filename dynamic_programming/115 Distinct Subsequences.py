@@ -37,26 +37,33 @@ class Solution:
             same = i and t[i] == t[i-1]
             dp[i][0] = 0 if same else (dp[i-1][0] if t[i] == s[0] else 0)
             for j in range(1, len(s)):
-                dp[i][j] = dp[i][j-1] + dp[i-1][j-same] if t[i] == s[j] else dp[i][j-1]
+                dp[i][j] = dp[i][j-1] + dp[i-1][j -
+                                                same] if t[i] == s[j] else dp[i][j-1]
             # for line in dp:
             #     print(line)
             # print()
         return dp[-1][-1]
-    
-    
+
     def numDistinct2(self, s: str, t: str) -> int:
+        if len(s) == len(t):
+            return 1 if s == t else 0
         dp = [1] + [0] * len(t)
         for i in range(1, len(s)+1):
             prev = 1
+            if s[i-1] not in t:
+                continue
             for j in range(1, len(t)+1):
                 temp = dp[j]
                 if s[i-1] == t[j-1]:
                     dp[j] += prev
                 prev = temp
+                if dp[j] == 0:
+                    break
             # for line in dp:
             #     print(line)
             # print()
         return dp[-1]
+
 
 if __name__ == '__main__':
     print(Solution().numDistinct2('rabbbit', 'rabbit'))
