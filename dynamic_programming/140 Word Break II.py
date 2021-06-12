@@ -44,23 +44,40 @@ class Solution:
 
         return dp.get(len(s), [])
 
+    def wordBreak2(self, s: str, wordDict: List[str]) -> List[str]:
+        words = set(wordDict)
+
+        def dfs(idx):
+            if idx == len(s):
+                return ['']
+            res = []
+            for i in range(idx, len(s)):
+                if s[idx: i+1] not in words:
+                    continue
+                w = s[idx: i+1]
+                for t in dfs(i+1):
+                    res.append(w + ' ' + t if t else w)
+            return res
+        
+        return dfs(0)
+
 
 if __name__ == '__main__':
-    print(Solution().wordBreak(
+    print(Solution().wordBreak2(
         "catsanddog", ["cat", "cats", "and", "sand", "dog"]
     ))
-    print(Solution().wordBreak(
+    print(Solution().wordBreak2(
         "pineapplepenapple", ["apple", "pen", "applepen", "pine", "pineapple"]
     ))
-    print(Solution().wordBreak(
+    print(Solution().wordBreak2(
         "catsandog", ["cats", "dog", "sand", "and", "cat"]
     ))
-    print(Solution().wordBreak(
+    print(Solution().wordBreak2(
         '', []
     ))
-    print(Solution().wordBreak(
+    print(Solution().wordBreak2(
         's', []
     ))
-    print(Solution().wordBreak(
+    print(Solution().wordBreak2(
         '', ['aa']
     ))
