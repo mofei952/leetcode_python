@@ -47,19 +47,16 @@ class Solution:
     def wordBreak2(self, s: str, wordDict: List[str]) -> List[str]:
         words = set(wordDict)
 
-        def dfs(idx):
+        def dfs(idx, res, path):
             if idx == len(s):
-                return ['']
-            res = []
+                res.append(path.strip())
             for i in range(idx, len(s)):
-                if s[idx: i+1] not in words:
-                    continue
-                w = s[idx: i+1]
-                for t in dfs(i+1):
-                    res.append(w + ' ' + t if t else w)
-            return res
-        
-        return dfs(0)
+                if s[idx: i+1] in words:
+                    dfs(i+1, res, path + ' ' + s[idx: i+1])
+
+        res = []
+        dfs(0, res, '')
+        return res
 
 
 if __name__ == '__main__':
