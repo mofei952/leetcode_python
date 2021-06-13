@@ -58,23 +58,37 @@ class Solution:
         dfs(0, res, '')
         return res
 
+    def wordBreak3(self, s: str, wordDict: List[str]) -> List[str]:
+        words = set(wordDict)
+        dp = [['']]
+        for i in range(1, len(s)+1):
+            res = []
+            for j in range(len(dp)):
+                if dp[j] and s[j:i] in words:
+                    if j:
+                        res.extend(t+' '+s[j:i] for t in dp[j])
+                    else:
+                        res.append(s[j:i])
+            dp.append(res)
+        return dp[-1]
+
 
 if __name__ == '__main__':
-    print(Solution().wordBreak2(
+    print(Solution().wordBreak3(
         "catsanddog", ["cat", "cats", "and", "sand", "dog"]
     ))
-    print(Solution().wordBreak2(
+    print(Solution().wordBreak3(
         "pineapplepenapple", ["apple", "pen", "applepen", "pine", "pineapple"]
     ))
-    print(Solution().wordBreak2(
+    print(Solution().wordBreak3(
         "catsandog", ["cats", "dog", "sand", "and", "cat"]
     ))
-    print(Solution().wordBreak2(
+    print(Solution().wordBreak3(
         '', []
     ))
-    print(Solution().wordBreak2(
+    print(Solution().wordBreak3(
         's', []
     ))
-    print(Solution().wordBreak2(
+    print(Solution().wordBreak3(
         '', ['aa']
     ))
