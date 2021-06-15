@@ -30,17 +30,18 @@ from typing import List
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
         words = set(wordDict)
-        if not words:
-            return []
 
         dp = {0: ['']}
-        for i in range(len(s)):
+        for i in range(1, len(s)+1):
             cur = []
             for j in dp:
-                if s[j:i+1] in words:
-                    cur.extend((t and t+' ')+s[j:i+1] for t in dp[j])
+                if s[j:i] in words:
+                    if j:
+                        cur.extend(t+' '+s[j:i] for t in dp[j])
+                    else:
+                        cur.append(s[j:i])
             if cur:
-                dp[i+1] = cur
+                dp[i] = cur
 
         return dp.get(len(s), [])
 
@@ -62,33 +63,33 @@ class Solution:
         words = set(wordDict)
         dp = [['']]
         for i in range(1, len(s)+1):
-            res = []
+            cur = []
             for j in range(len(dp)):
                 if dp[j] and s[j:i] in words:
                     if j:
-                        res.extend(t+' '+s[j:i] for t in dp[j])
+                        cur.extend(t+' '+s[j:i] for t in dp[j])
                     else:
-                        res.append(s[j:i])
-            dp.append(res)
+                        cur.append(s[j:i])
+            dp.append(cur)
         return dp[-1]
 
 
 if __name__ == '__main__':
-    print(Solution().wordBreak3(
+    print(Solution().wordBreak(
         "catsanddog", ["cat", "cats", "and", "sand", "dog"]
     ))
-    print(Solution().wordBreak3(
+    print(Solution().wordBreak(
         "pineapplepenapple", ["apple", "pen", "applepen", "pine", "pineapple"]
     ))
-    print(Solution().wordBreak3(
+    print(Solution().wordBreak(
         "catsandog", ["cats", "dog", "sand", "and", "cat"]
     ))
-    print(Solution().wordBreak3(
+    print(Solution().wordBreak(
         '', []
     ))
-    print(Solution().wordBreak3(
+    print(Solution().wordBreak(
         's', []
     ))
-    print(Solution().wordBreak3(
+    print(Solution().wordBreak(
         '', ['aa']
     ))
