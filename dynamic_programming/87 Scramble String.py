@@ -51,14 +51,6 @@ class Solution:
 
             n = len(s1)
 
-            d = {}
-            for i in range(n):
-                d[s1[i]] = d.get(s1[i], 0) + 1
-                d[s2[i]] = d.get(s2[i], 0) - 1
-            if any(d.values()):
-                seen[(s1, s2)] = False
-                return False
-
             d1, d2, d3 = {}, {}, {}
             for i in range(n-1):
                 d1[s1[i]] = d1.get(s1[i], 0) + 1
