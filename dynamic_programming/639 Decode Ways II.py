@@ -4,20 +4,10 @@ from functools import lru_cache
 class Solution:
     def __init__(self) -> None:
         self.ways = dict(
-            **{'*': 9, '0': 0},
-            **{str(i): 1 for i in range(1, 10)},
-
-            **{'**': 15},
-
+            **{'*': 9, '**': 15, '1*': 9, '2*': 6},
+            **{str(i): 1 for i in range(1, 27)},
             **{f'*{i}': 2 for i in range(0, 7)},
             **{f'*{i}': 1 for i in range(7, 10)},
-
-            **{'0*': 0, '1*': 9, '2*': 6},
-            **{f'{i}*': 0 for i in range(3, 10)},
-
-            **{f'0{i}': 0 for i in range(0, 10)},
-            **{str(i): 1 for i in range(10, 27)},
-            **{str(i): 0 for i in range(27, 100)}
         )
         # print(self.map)
 
@@ -46,15 +36,17 @@ class Solution:
     #     return 0
 
     def numDecodings(self, s: str) -> int:
-        dp = [1] * (len(s)+1)
-        dp[1] = self.ways[s[0]]
+        dp = [0] * (len(s)+1)
+        dp[0], dp[-1] = self.ways[s[0]], 1
 
-        for i in range(2, len(s)+1):
-            n1 = dp[i-1] * self.ways[s[i-1]]
-            n2 = dp[i-2] * self.ways[s[i-2: i]]
+        for i in range(1, len(s)):
+            n1 = dp[i-1] * self.ways.get(s[i], 0)
+            n2 = dp[i-2] * self.ways.get(s[i-1: i+1], 0)
             dp[i] = (n1+n2) % (10**9+7)
+            if dp[i] == 0:
+                return 0
 
-        return dp[-1]
+        return dp[-2]
 
 
 if __name__ == '__main__':
