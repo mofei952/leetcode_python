@@ -30,7 +30,7 @@ class Solution:
         max_area = 0
         while low < high:
             if height[low] < height[high]:
-                area = height[low] * (high- low)
+                area = height[low] * (high - low)
                 low += 1
             else:
                 area = height[high] * (high - low)
