@@ -13,18 +13,17 @@ class Solution:
         if head is None or head.next is None:
             return head
 
-        length = 0
-        pre_node, node = None, head
-        while node:
+        length = 1
+        node = head
+        while node.next:
             length += 1
-            pre_node = node
             node = node.next
 
         n = length - k % length
         if n == length:
             return head
 
-        pre_node.next = head
+        node.next = head
 
         node = head
         for _ in range(n - 1):
