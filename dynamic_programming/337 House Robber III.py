@@ -9,7 +9,7 @@ It will automatically contact the police if two directly-linked houses were brok
 Given the root of the binary tree, return the maximum amount of money the thief can rob without alerting the police.
 """
 
-from tree.tree_node import TreeNode
+from tree.binary_tree import TreeNode, create_tree
 
 
 class Solution:
@@ -24,5 +24,5 @@ class Solution:
 
 
 if __name__ == '__main__':
-    print(Solution().rob(TreeNode.create_tree([3, 2, 3, None, 3, None, 1])))
-    print(Solution().rob(TreeNode.create_tree([3, 4, 5, 1, 3, None, 1])))
+    print(Solution().rob(create_tree([3, 2, 3, None, 3, None, 1])))
+    print(Solution().rob(create_tree([3, 4, 5, 1, 3, None, 1])))

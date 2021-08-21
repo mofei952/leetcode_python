@@ -26,7 +26,7 @@ But the following [1,2,2,null,3,null,3] is not:
 import pytest
 
 from commons import func_test
-from tree.tree_node import TreeNode
+from tree.binary_tree import TreeNode, create_tree
 
 
 class Solution:
@@ -72,8 +72,8 @@ class Solution:
 @pytest.fixture(scope="module")
 def test_data():
     params_list = [
-        [TreeNode.create_tree([1, 2, 2, 3, 4, 4, 3])],
-        [TreeNode.create_tree([1, 2, 2, None, 3, None, 3])]
+        [create_tree([1, 2, 2, 3, 4, 4, 3])],
+        [create_tree([1, 2, 2, None, 3, None, 3])]
     ]
     res_list = [
         True,

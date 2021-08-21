@@ -6,7 +6,7 @@ https://leetcode.com/problems/binary-tree-inorder-traversal/
 from typing import Optional
 from typing import List
 
-from tree.tree_node import TreeNode
+from tree.binary_tree import TreeNode
 
 
 class Solution:

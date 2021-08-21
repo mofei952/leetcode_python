@@ -34,7 +34,7 @@ Given the following tree [1,2,2,3,3,None,None,4,4]:
 Return false.
 """
 
-from tree.tree_node import TreeNode
+from tree.binary_tree import TreeNode, create_tree
 
 
 class Solution:
@@ -55,6 +55,6 @@ class Solution:
 
 
 if __name__ == '__main__':
-    print(Solution().isBalanced(TreeNode.create_tree([1, None, 2, None, 3])))
-    print(Solution().isBalanced(TreeNode.create_tree([3, 9, 20, None, None, 15, 7])))
-    print(Solution().isBalanced(TreeNode.create_tree([1, 2, 2, 3, 3, None, None, 4, 4])))
+    print(Solution().isBalanced(create_tree([1, None, 2, None, 3])))
+    print(Solution().isBalanced(create_tree([3, 9, 20, None, None, 15, 7])))
+    print(Solution().isBalanced(create_tree([1, 2, 2, 3, 3, None, None, 4, 4])))

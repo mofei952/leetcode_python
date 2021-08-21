@@ -25,7 +25,7 @@ The above output corresponds to the 5 unique BST's shown below:
 from functools import lru_cache
 from typing import List
 
-from tree.tree_node import TreeNode
+from tree.binary_tree import TreeNode
 
 
 class Solution:

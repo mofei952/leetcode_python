@@ -22,7 +22,7 @@ One possible answer is: [0,-3,9,-10,null,5], which represents the following heig
 from typing import List
 
 from linked_list.list_node import ListNode
-from tree.tree_node import TreeNode
+from tree.binary_tree import TreeNode
 
 
 class Solution:

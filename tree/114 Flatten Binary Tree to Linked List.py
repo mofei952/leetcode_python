@@ -29,7 +29,7 @@ The flattened tree should look like:
           6
 """
 
-from tree.tree_node import TreeNode
+from tree.binary_tree import TreeNode, create_tree
 
 
 class Solution:
@@ -57,6 +57,6 @@ class Solution:
 
 
 if __name__ == '__main__':
-    tree = TreeNode.create_tree([1, 2, 5, 3, 4, None, 6])
+    tree = create_tree([1, 2, 5, 3, 4, None, 6])
     Solution().flatten(tree)
     print(tree)

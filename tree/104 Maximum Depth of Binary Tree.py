@@ -28,7 +28,7 @@ import random
 import pytest
 
 from commons import func_test
-from tree.tree_node import TreeNode
+from tree.binary_tree import TreeNode, create_tree
 
 
 class Solution:
@@ -58,13 +58,13 @@ class Solution:
 @pytest.fixture(scope="module")
 def test_data():
     params_list = [
-        (TreeNode.create_tree([3, 9, 20, None, None, 15, 7]),),
+        (create_tree([3, 9, 20, None, None, 15, 7]),),
     ]
     res_list = [
         3,
     ]
     for i in range(0, 299):
-        v = TreeNode.create_tree([random.randint(0, i * 10) for i in range(i)])
+        v = create_tree([random.randint(0, i * 10) for i in range(i)])
         params_list.append((v,))
         res_list.append(Solution().maxDepth(v))
     return params_list, res_list, 100

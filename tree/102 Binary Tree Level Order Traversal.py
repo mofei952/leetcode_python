@@ -25,7 +25,7 @@ return its level order traversal as:
 """
 from typing import List
 
-from tree.tree_node import TreeNode
+from tree.binary_tree import TreeNode, create_tree
 
 
 class Solution:
@@ -67,5 +67,5 @@ class Solution:
 
 if __name__ == '__main__':
     # print(TreeNode.create_tree([3, 9, 20, None, None, 15, 7]))
-    result = Solution().levelOrder2(TreeNode.create_tree([3, 9, 20, None, None, 15, 7]))
+    result = Solution().levelOrder2(create_tree([3, 9, 20, None, None, 15, 7]))
     print(result)

@@ -21,7 +21,7 @@ Given binary tree [3,9,20,null,null,15,7],
 return its minimum depth = 2.
 """
 
-from tree.tree_node import TreeNode
+from tree.binary_tree import TreeNode, create_tree
 
 
 class Solution:
@@ -39,6 +39,6 @@ class Solution:
 
 
 if __name__ == '__main__':
-    print(Solution().minDepth(TreeNode.create_tree([1, 2])))
-    print(Solution().minDepth(TreeNode.create_tree([1, 2, 3, 4, None, None, 5])))
-    print(Solution().minDepth(TreeNode.create_tree([3, 9, 20, None, None, 15, 7])))
+    print(Solution().minDepth(create_tree([1, 2])))
+    print(Solution().minDepth(create_tree([1, 2, 3, 4, None, None, 5])))
+    print(Solution().minDepth(create_tree([3, 9, 20, None, None, 15, 7])))

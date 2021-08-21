@@ -31,7 +31,7 @@ from typing import List
 import pytest
 
 from commons import func_test
-from tree.tree_node import TreeNode
+from tree.binary_tree import TreeNode, create_tree
 
 
 class Solution:
@@ -84,7 +84,7 @@ class Solution:
 @pytest.fixture(scope="module")
 def test_data():
     params_list = [
-        [TreeNode.create_tree([5, 4, 8, 11, None, 13, 4, 7, 2, None, None, 5, 1]), 22],
+        [create_tree([5, 4, 8, 11, None, 13, 4, 7, 2, None, None, 5, 1]), 22],
     ]
     res_list = []
     for params in params_list:

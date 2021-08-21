@@ -25,7 +25,7 @@ Return the following binary tree:
 
 from typing import List
 
-from tree.tree_node import TreeNode
+from tree.binary_tree import TreeNode
 
 
 class Solution:

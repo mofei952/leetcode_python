@@ -28,7 +28,7 @@ from typing import List
 import pytest
 
 from commons import func_test
-from tree.tree_node import TreeNode
+from tree.binary_tree import TreeNode
 
 
 class Solution:
@@ -46,7 +46,7 @@ class Solution:
         preorder = list(preorder)
         if not preorder or not inorder:
             return None
-        
+
         inorder_indexes = {v: i for i, v in enumerate(inorder)}
 
         def buildTree_recursive(left, right):
