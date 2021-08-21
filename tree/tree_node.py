@@ -1,3 +1,4 @@
+import warnings
 from collections import defaultdict
 
 
@@ -47,30 +48,34 @@ class TreeNode:
             return False
         return str(self) == str(other)
 
-    # @classmethod
-    # def create_tree(cls, arr):
-    #     if not arr:
-    #         return None
-    #
-    #     val = arr.pop(0)
-    #     if val is None:
-    #         return None
-    #
-    #     node = cls(val)
-    #     node.left = cls.create_tree(arr)
-    #     node.right = cls.create_tree(arr)
-    #
-    #     return node
-
     @staticmethod
     def create_tree(arr):
+        """
+        根据层序构造二叉树（忽略空节点的子节点）
+
+        examples:
+            >> TreeNode.create_tree([1, 2, 3, None, 4, 5, 6, None, None, 7])
+                   1
+                  / \
+                 /   \
+                /     \
+               /       \
+               2       3
+              / \     / \
+             /   \   /   \
+             N   4   5   6
+            / \ / \ / \ / \
+            N N N N 7 N N N
+        """
+
         if not arr:
             return None
 
+        length = len(arr)
         root = TreeNode(arr[0])
         queue = [root]
 
-        for i in range(1, len(arr), 2):
+        for i in range(1, length, 2):
             node = queue.pop(0)
 
             val = arr[i]
@@ -78,7 +83,7 @@ class TreeNode:
                 node.left = TreeNode(val)
                 queue.append(node.left)
 
-            if i + 1 >= len(arr):
+            if i + 1 >= length:
                 continue
             val = arr[i + 1]
             if val is not None:
@@ -87,7 +92,74 @@ class TreeNode:
 
         return root
 
+    @classmethod
+    def create_tree2(cls, arr):
+        """
+        根据层序生成二叉树（不省略空节点的子节点）
+
+        Examples:
+            >> TreeNode.create_tree2([1, 2, 3, None, 4, 5, 6, None, None, 7])
+                   1
+                  / \
+                 /   \
+                /     \
+               /       \
+               2       3
+              / \     / \
+             /   \   /   \
+             N   4   5   6
+            / \ / \ / \ / \
+            N N 7 N N N N N
+        """
+
+        length = len(arr)
+        root = cls(arr[0])
+        queue = [root]
+
+        for i in range(1, length, 2):
+            node = queue.pop(0)
+
+            if node is not None:
+                if arr[i]:
+                    node.left = TreeNode(arr[i])
+                if i + 1 < length and arr[i + 1]:
+                    node.right = TreeNode(arr[i + 1])
+
+                queue.extend((node.left, node.right))
+            else:
+                queue.extend((None, None))
+
+        return root
+
+    @classmethod
+    def create_tree3(cls, arr):
+        """
+        根据先序构造二叉树
+        """
+        if not arr:
+            return None
+
+        val = arr.pop(0)
+        if val is None:
+            return None
+
+        node = cls(val)
+        node.left = cls.create_tree3(arr)
+        node.right = cls.create_tree3(arr)
+
+        return node
+
 
 if __name__ == '__main__':
-    tree = TreeNode.create_tree([1, None, 2, 3])
-    print(tree)
+    # print(TreeNode.create_tree([1, None, 2, 3]))
+    # print(TreeNode.create_tree([1, 2, 3, None, 4, 5, 6, 7, None]))
+    # print(TreeNode.create_tree([1, None, 2, 2, 32, 31, 3, 23, 1, 23, 123, 12, 3, 12, 31, 23, 2]))
+    #
+    # print(TreeNode.create_tree2([1, None, 2, None, None, None, 3]))
+    #
+    # print(TreeNode.create_tree3([1, 2, 3, None, None, 4, None, None, 5, None, 6]))
+
+    # 用同一个数组比较两种构造方式
+    arr = [1, 2, 3, None, 4, 5, 6, None, None, 7]
+    print(TreeNode.create_tree(arr))
+    print(TreeNode.create_tree2(arr))
