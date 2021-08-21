@@ -19,13 +19,18 @@ class TreeNode:
             return False
         return str(self) == str(other)
 
+    def depth(self):
+        if self is None:
+            return 0
+        return max(TreeNode.depth(self.left), TreeNode.depth(self.right)) + 1
+
     def preorder_traversal(self):
         def preorder(root):
             if root is None:
                 return []
             return [root.val] + preorder(root.left) + preorder(root.right)
 
-        print(preorder(self))
+        print(*preorder(self), sep=' ')
 
     def inorder_traversal(self):
         def inorder(root):
@@ -33,7 +38,7 @@ class TreeNode:
                 return []
             return inorder(root.left) + [root.val] + inorder(root.right)
 
-        print(inorder(self))
+        print(*inorder(self), sep=' ')
 
     def postorder_traversal(self):
         def postorder(root):
@@ -41,23 +46,74 @@ class TreeNode:
                 return []
             return postorder(root.left) + postorder(root.right) + [root.val]
 
-        print(postorder(self))
+        print(*postorder(self), sep=' ')
 
     def level_traversal(root):
-        res = []
         nodes = [root]
         while nodes:
-            new_nodes = []
-            for node in nodes:
-                res.append(node.val)
-                if node.left:
-                    new_nodes.append(node.left)
-                if node.right:
-                    new_nodes.append(node.right)
-                nodes = new_nodes
-        print(res)
+            node = nodes.pop(0)
+            print(node.val, end=' ')
+            if node.left:
+                nodes.append(node.left)
+            if node.right:
+                nodes.append(node.right)
+        print()
+
+    def _max_val_length(self):
+        if not self:
+            return 0
+        return max(len(str(self.val)), TreeNode._max_val_length(self.left), TreeNode._max_val_length(self.right))
 
     def display(self):
+        depth = self.depth()
+        max_length = self._max_val_length() + 2
+        width = 2 ** (depth - 1) * (2 * max_length - 2) - (max_length - 2)
+
+        level = 1
+        nodes = [self]
+        while nodes:
+            new_nodes = []
+            has_node = False
+
+            datas = []
+            for node in nodes:
+                text = str(node.val) if node else ''
+                if node:
+                    if node.left or node.right:
+                        has_node = True
+                    new_nodes.append(node.left)
+                    new_nodes.append(node.right)
+                else:
+                    new_nodes.append(None)
+                    new_nodes.append(None)
+                datas.append(f'({text.center(max_length - 2, " ")})')
+
+            # pad = 2 ** (depth - level) * length - 2 + (2 ** (depth - level) - 1) * (length - 2)
+            blank_length = 2 ** (depth - level) * (2 * max_length - 2) - max_length
+            next_level_blank_length = 2 ** (depth - level - 1) * (2 * max_length - 2) - max_length
+            horiz_line_length = max(0, (next_level_blank_length - max_length) // 2)
+            print((' ' * blank_length).join(datas).center(width))
+            if level < depth:
+                horiz_line = '_' * horiz_line_length
+                print(
+                    (' ' * (blank_length - 2 * horiz_line_length)).join(
+                        [horiz_line + '/' + ' ' * (max_length - 2) + '\\' + horiz_line] * len(datas)
+                    ).center(width)
+                )
+            if level < depth - 1:
+                print(
+                    (' ' * (next_level_blank_length + 2 * (max_length - 1))).join(
+                        [(' ' * next_level_blank_length).join(['/', '\\'])] * len(datas)
+                    ).center(width)
+                )
+
+            if has_node is False:
+                break
+
+            nodes = new_nodes
+            level += 1
+
+    def display2(self):
         level_to_nodes_dict = defaultdict(list)
         nodes = [self]
         next_nodes = []
@@ -207,8 +263,12 @@ if __name__ == '__main__':
     # create_tree2(arr).display()
 
     tree = create_tree([1, 2, 3, None, 4, 5, 6, 7, None])
-    tree.display()
     tree.preorder_traversal()
     tree.inorder_traversal()
     tree.postorder_traversal()
     tree.level_traversal()
+    tree.display()
+    tree.display2()
+
+    tree = create_tree([1, None, 2, 2, 32, 31, 3, 23, 1, 2311, 12, 12, 3, 12, 31, 23, 2])
+    tree.display()
