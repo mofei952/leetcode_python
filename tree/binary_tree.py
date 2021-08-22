@@ -65,9 +65,14 @@ class TreeNode:
         return max(len(str(self.val)), TreeNode._max_val_length(self.left), TreeNode._max_val_length(self.right))
 
     def display(self):
+        # 树的深度
         depth = self.depth()
-        max_length = self._max_val_length() + 2
-        width = 2 ** (depth - 1) * (2 * max_length - 2) - (max_length - 2)
+        # val长度最大值+2（左右括号）
+        length = self._max_val_length() + 2
+        # 最后一层节点数量
+        last_level_node_count = 2 ** (depth - 1)
+        # 整个输出的宽度，即最后一层宽度
+        width = last_level_node_count * length + (last_level_node_count - 1) * (length - 2)
 
         level = 1
         nodes = [self]
@@ -86,27 +91,36 @@ class TreeNode:
                 else:
                     new_nodes.append(None)
                     new_nodes.append(None)
-                datas.append(f'({text.center(max_length - 2, " ")})')
+                datas.append(f'({text.center(length - 2, " ")})')
 
-            # pad = 2 ** (depth - level) * length - 2 + (2 ** (depth - level) - 1) * (length - 2)
-            blank_length = 2 ** (depth - level) * (2 * max_length - 2) - max_length
-            next_level_blank_length = 2 ** (depth - level - 1) * (2 * max_length - 2) - max_length
-            horiz_line_length = max(0, (next_level_blank_length - max_length) // 2)
-            print((' ' * blank_length).join(datas).center(width))
+            # 本层节点之间空格数量
+            # space_count = 2 ** (depth - level) * length + (2 ** (depth - level) - 1) * (length - 2) - 2
+            space_count = 2 ** (depth - level) * (2 * length - 2) - length
+            # 下一层节点之间空格数量
+            next_space_count = 2 ** (depth - level - 1) * (2 * length - 2) - length
+            # 本层每组下划线数量
+            underline_count = max(0, (next_space_count - length) // 2)
+
+            # 打印节点行
+            print((' ' * space_count).join(datas).center(width))
+            # 打印线
+            #  ____/    \____
+            # /              \
             if level < depth:
-                horiz_line = '_' * horiz_line_length
+                horiz_line = '_' * underline_count
                 print(
-                    (' ' * (blank_length - 2 * horiz_line_length)).join(
-                        [horiz_line + '/' + ' ' * (max_length - 2) + '\\' + horiz_line] * len(datas)
+                    (' ' * (space_count - 2 * underline_count)).join(
+                        [horiz_line + '/' + ' ' * (length - 2) + '\\' + horiz_line] * len(datas)
                     ).center(width)
                 )
             if level < depth - 1:
                 print(
-                    (' ' * (next_level_blank_length + 2 * (max_length - 1))).join(
-                        [(' ' * next_level_blank_length).join(['/', '\\'])] * len(datas)
+                    (' ' * (next_space_count + 2 * (length - 1))).join(
+                        ['/' + ' ' * next_space_count + '\\'] * len(datas)
                     ).center(width)
                 )
 
+            # 下一层没有节点则结束
             if has_node is False:
                 break
 
