@@ -7,20 +7,8 @@
 # @Software: PyCharm
 
 """
-Given a binary tree, find its maximum depth.
-The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
-
-Note: A leaf is a node with no children.
-
-Example:
-Given binary tree [3,9,20,null,null,15,7],
-
-    3
-   / \
-  9  20
-    /  \
-   15   7
-return its depth = 3.
+question:
+https://leetcode.com/problems/maximum-depth-of-binary-tree/
 """
 
 import random
@@ -33,20 +21,19 @@ from tree.binary_tree import TreeNode, create_tree
 
 class Solution:
     def maxDepth(self, root: TreeNode) -> int:
-        """数的最大深度"""
         if not root:
             return 0
-        queue = [root]
+        nodes = [root]
         depth = 0
-        while queue:
+        while nodes:
             depth += 1
-            t = []
-            for node in queue:
+            new_nodes = []
+            for node in nodes:
                 if node.left:
-                    t.append(node.left)
+                    new_nodes.append(node.left)
                 if node.right:
-                    t.append(node.right)
-            queue = t
+                    new_nodes.append(node.right)
+            nodes = new_nodes
         return depth
 
     def maxDepth2(self, root: TreeNode) -> int:
@@ -70,11 +57,11 @@ def test_data():
     return params_list, res_list, 100
 
 
-def test_007(test_data):
+def test_104(test_data):
     func_test(Solution().maxDepth, *test_data)
 
 
-def test_007_2(test_data):
+def test_104_2(test_data):
     func_test(Solution().maxDepth2, *test_data)
 
 
