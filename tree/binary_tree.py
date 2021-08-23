@@ -261,6 +261,16 @@ def create_tree3(arr):
     return node
 
 
+def is_same_tree(t1, t2):
+    if not t1 and not t2:
+        return True
+    if not t1 or not t2:
+        return False
+    if t1.val != t2.val:
+        return False
+    return is_same_tree(t1.left, t2.left) and is_same_tree(t1.right, t2.right)
+
+
 if __name__ == '__main__':
     # 构造函数测试
     # create_tree([1, None, 2, 3]).display()
