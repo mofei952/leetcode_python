@@ -6,7 +6,7 @@ https://leetcode.com/problems/binary-tree-inorder-traversal/
 from typing import Optional
 from typing import List
 
-from tree.binary_tree import TreeNode
+from tree.binary_tree import TreeNode, create_tree
 
 
 class Solution:
@@ -38,11 +38,11 @@ class Solution:
 
 if __name__ == '__main__':
     print(Solution().inorderTraversal2(
-        TreeNode.create_tree([])
+        create_tree([])
     ))
     print(Solution().inorderTraversal2(
-        TreeNode.create_tree([1])
+        create_tree([1])
     ))
     print(Solution().inorderTraversal2(
-        TreeNode.create_tree([1, None, 2, 3])
+        create_tree([1, None, 2, 3])
     ))
