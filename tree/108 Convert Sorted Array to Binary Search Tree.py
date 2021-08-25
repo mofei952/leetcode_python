@@ -55,4 +55,4 @@ class Solution:
 
 
 if __name__ == '__main__':
-    print(Solution().sortedArrayToBST([-10, -3, 0, 5, 9]))
+    Solution().sortedArrayToBST2([-10, -3, 0, 5, 9]).display()
