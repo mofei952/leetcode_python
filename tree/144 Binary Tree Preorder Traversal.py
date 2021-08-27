@@ -1,5 +1,5 @@
 """
-quesiont:
+question:
 https://leetcode.com/problems/binary-tree-preorder-traversal/
 """
 from typing import Optional, List
