@@ -26,6 +26,19 @@ class Solution:
         return res
 
     def preorderTraversal3(self, root: Optional[TreeNode]) -> List[int]:
+        res = []
+        stack = []
+        node = root
+        while node or stack:
+            while node:
+                res.append(node.val)
+                stack.append(node)
+                node = node.left
+            node = stack.pop()
+            node = node.right
+        return res
+
+    def preorderTraversal4(self, root: Optional[TreeNode]) -> List[int]:
         if root is None:
             return []
         res = []
