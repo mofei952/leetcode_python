@@ -26,13 +26,16 @@ class Solution:
         return res
 
     def preorderTraversal3(self, root: Optional[TreeNode]) -> List[int]:
+        if root is None:
+            return []
         res = []
         stack = [root]
         while stack:
             node = stack.pop()
-            if node:
-                res.append(node.val)
+            res.append(node.val)
+            if node.right:
                 stack.append(node.right)
+            if node.left:
                 stack.append(node.left)
         return res
 
