@@ -25,8 +25,43 @@ class Solution:
         postorder(root)
         return res
 
+    def postorderTraversal3(self, root: Optional[TreeNode]) -> List[int]:
+        res = []
+        stack = []
+        node = root
+        last_visited = None
+        while node or stack:
+            while node:
+                stack.append(node)
+                node = node.left
+            node = stack[-1]
+            if node.right is None or node.right == last_visited:
+                stack.pop()
+                res.append(node.val)
+                last_visited = node
+                node = None
+            else:
+                node = node.right
+        return res
+
+    def postorderTraversal4(self, root: Optional[TreeNode]) -> List[int]:
+        if root is None:
+            return []
+
+        stack = [root]
+        res = []
+        while stack:
+            node = stack.pop()
+            res.append(node.val)
+            if node.left:
+                stack.append(node.left)
+            if node.right:
+                stack.append(node.right)
+
+        return res[::-1]
+
 
 if __name__ == '__main__':
-    assert Solution().postorderTraversal2(create_tree([1, None, 2, 3])) == [3, 2, 1]
-    assert Solution().postorderTraversal2(create_tree([])) == []
-    assert Solution().postorderTraversal2(create_tree([1])) == [1]
+    assert Solution().postorderTraversal4(create_tree([1, None, 2, 3])) == [3, 2, 1]
+    assert Solution().postorderTraversal4(create_tree([])) == []
+    assert Solution().postorderTraversal4(create_tree([1])) == [1]
