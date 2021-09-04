@@ -48,7 +48,7 @@ class Solution:
 
     def levelOrder2(self, root: TreeNode) -> List[List[int]]:
         """二叉树的层序遍历 优化"""
-        if not root:
+        if root is None:
             return []
         queue = [root]
         result = []
