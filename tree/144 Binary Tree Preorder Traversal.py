@@ -52,8 +52,28 @@ class Solution:
                 stack.append(node.left)
         return res
 
+    def preorderTraversal5(self, root: Optional[TreeNode]) -> List[int]:
+        cur = root
+        res = []
+        while cur:
+            right_most = cur.left
+            if right_most is None:
+                res.append(cur.val)
+                cur = cur.right
+                continue
+            while right_most.right and right_most.right != cur:
+                right_most = right_most.right
+            if right_most.right is None:
+                res.append(cur.val)
+                right_most.right = cur
+                cur = cur.left
+            else:
+                right_most.right = None
+                cur = cur.right
+        return res
+
 
 if __name__ == '__main__':
-    assert Solution().preorderTraversal3(create_tree([1, None, 2, 3])) == [1, 2, 3]
-    assert Solution().preorderTraversal3(create_tree([])) == []
-    assert Solution().preorderTraversal3(create_tree([1])) == [1]
+    assert Solution().preorderTraversal5(create_tree([1, None, 2, 3])) == [1, 2, 3]
+    assert Solution().preorderTraversal5(create_tree([])) == []
+    assert Solution().preorderTraversal5(create_tree([1])) == [1]
