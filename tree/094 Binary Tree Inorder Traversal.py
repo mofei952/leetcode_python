@@ -52,8 +52,28 @@ class Solution:
                 res.append(node.val)
         return res
 
+    def inorderTraversal4(self, root: Optional[TreeNode]) -> List[int]:
+        cur = root
+        res = []
+        while cur:
+            right_most = cur.left
+            if right_most is None:
+                res.append(cur.val)
+                cur = cur.right
+                continue
+            while right_most.right and right_most.right != cur:
+                right_most = right_most.right
+            if right_most.right is None:
+                right_most.right = cur
+                cur = cur.left
+            else:
+                right_most.right = None
+                res.append(cur.val)
+                cur = cur.right
+        return res
+
 
 if __name__ == '__main__':
-    assert Solution().inorderTraversal3(create_tree([])) == []
-    assert Solution().inorderTraversal3(create_tree([1])) == [1]
-    assert Solution().inorderTraversal3(create_tree([1, None, 2, 3])) == [1, 3, 2]
+    assert Solution().inorderTraversal4(create_tree([])) == []
+    assert Solution().inorderTraversal4(create_tree([1])) == [1]
+    assert Solution().inorderTraversal4(create_tree([1, None, 2, 3])) == [1, 3, 2]
