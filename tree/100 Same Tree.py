@@ -1,38 +1,6 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-# @Author  : mofei
-# @Time    : 2019/5/15 19:35
-# @File    : 100 Same Tree.py
-# @Software: PyCharm
-
 """
-Given two binary trees, write a function to check if they are the same or not.
-Two binary trees are considered the same if they are structurally identical and the nodes have the same value.
-
-Example 1:
-Input:     1         1
-          / \       / \
-         2   3     2   3
-
-        [1,2,3],   [1,2,3]
-Output: true
-
-Example 2:
-Input:     1         1
-          /           \
-         2             2
-
-        [1,2],     [1,null,2]
-Output: false
-
-Example 3:
-Input:     1         1
-          / \       / \
-         2   1     1   2
-
-        [1,2,1],   [1,1,2]
-Output: false
+question:
+https://leetcode.com/problems/same-tree/
 """
 
 from tree.binary_tree import TreeNode, create_tree
@@ -48,7 +16,21 @@ class Solution:
             return False
         return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)
 
+    def isSameTree2(self, p: TreeNode, q: TreeNode) -> bool:
+        queue = [(p, q)]
+        while queue:
+            n1, n2 = queue.pop(0)
+            if not n1 and not n2:
+                continue
+            if not n1 or not n2:
+                return False
+            if n1.val != n2.val:
+                return False
+            queue.append((n1.left, n2.left))
+            queue.append((n1.right, n2.right))
+        return True
+
 
 if __name__ == '__main__':
-    print(Solution().isSameTree(create_tree([1, 2, 3]), create_tree([1, 2, 3])))
-    print(Solution().isSameTree(create_tree([1, 2, 1]), create_tree([1, 1, 2])))
+    assert Solution().isSameTree2(create_tree([1, 2, 3]), create_tree([1, 2, 3])) is True
+    assert Solution().isSameTree2(create_tree([1, 2, 1]), create_tree([1, 1, 2])) is False
