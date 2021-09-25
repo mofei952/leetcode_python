@@ -8,7 +8,6 @@ from tree.binary_tree import TreeNode, create_tree
 
 
 class BSTIterator:
-
     def __init__(self, root: Optional[TreeNode]):
         self.stack = []
         self.node = root
@@ -27,8 +26,29 @@ class BSTIterator:
         return bool(self.node or self.stack)
 
 
+class BSTIterator2:
+    def __init__(self, root: Optional[TreeNode]):
+        self.stack = []
+        while root:
+            self.stack.append(root)
+            root = root.left
+
+    def next(self) -> int:
+        cur_node = self.stack.pop()
+
+        node = cur_node.right
+        while node:
+            self.stack.append(node)
+            node = node.left
+
+        return cur_node.val
+
+    def hasNext(self) -> bool:
+        return bool(self.stack)
+
+
 if __name__ == '__main__':
-    iterator = BSTIterator(create_tree([7, 3, 15, None, None, 9, 20]))
+    iterator = BSTIterator2(create_tree([7, 3, 15, None, None, 9, 20]))
     assert iterator.next() == 3
     assert iterator.next() == 7
     assert iterator.hasNext() is True
