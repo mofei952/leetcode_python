@@ -1,27 +1,6 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-# @Author  : mofei
-# @Time    : 2019/3/14 20:17
-# @File    : 102 Binary Tree Level Order Traversal.py
-# @Software: PyCharm
-
 """
-Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
-
-For example:
-Given binary tree [3,9,20,null,null,15,7],
-    3
-   / \
-  9  20
-    /  \
-   15   7
-return its level order traversal as:
-[
-  [3],
-  [9,20],
-  [15,7]
-]
+question:
+https://leetcode.com/problems/binary-tree-level-order-traversal/
 """
 from typing import List
 
@@ -66,6 +45,4 @@ class Solution:
 
 
 if __name__ == '__main__':
-    # print(TreeNode.create_tree([3, 9, 20, None, None, 15, 7]))
-    result = Solution().levelOrder2(create_tree([3, 9, 20, None, None, 15, 7]))
-    print(result)
+    assert Solution().levelOrder2(create_tree([3, 9, 20, None, None, 15, 7])) == [[3], [9, 20], [15, 7]]
