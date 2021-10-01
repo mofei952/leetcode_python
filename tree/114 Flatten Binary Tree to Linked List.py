@@ -1,32 +1,6 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-# @Author  : mofei
-# @Time    : 2019/5/22 15:47
-# @File    : 114 Flatten Binary Tree to Linked List.py
-# @Software: PyCharm
-
 """
-Given a binary tree, flatten it to a linked list in-place.
-
-For example, given the following tree:
-    1
-   / \
-  2   5
- / \   \
-3   4   6
-The flattened tree should look like:
-1
- \
-  2
-   \
-    3
-     \
-      4
-       \
-        5
-         \
-          6
+question:
+https://leetcode.com/problems/flatten-binary-tree-to-linked-list/
 """
 
 from tree.binary_tree import TreeNode, create_tree
@@ -55,8 +29,24 @@ class Solution:
             return
         self.recursive(root)
 
+    def flatten2(self, root: TreeNode) -> None:
+        if root is None:
+            return None
+        stack = [root]
+        while stack:
+            node = stack.pop()
+            if node.right:
+                stack.append(node.right)
+            if node.left:
+                stack.append(node.left)
+            node.right = stack[-1] if stack else None
+            node.left = None
+
 
 if __name__ == '__main__':
     tree = create_tree([1, 2, 5, 3, 4, None, 6])
-    Solution().flatten(tree)
-    print(tree)
+    Solution().flatten2(tree)
+    tree.display()
+
+    tree = create_tree([])
+    Solution().flatten2(tree)
