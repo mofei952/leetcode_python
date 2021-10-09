@@ -1,28 +1,7 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-# @Author  : mofei
-# @Time    : 2018/10/7 15:22
-# @File    : 105 Construct Binary Tree from Preorder and Inorder Traversal.py
-# @Software: PyCharm
-
 """
-Given preorder and inorder traversal of a tree, construct the binary tree.
-
-Note:
-You may assume that duplicates do not exist in the tree.
-
-For example, given
-preorder = [3,9,20,15,7]
-inorder = [9,3,15,20,7]
-Return the following binary tree:
-    3
-   / \
-  9  20
-    /  \
-   15   7
+question:
+https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
 """
-
 from typing import List
 
 import pytest
@@ -43,25 +22,24 @@ class Solution:
         return node
 
     def buildTree2(self, preorder: List[int], inorder: List[int]) -> TreeNode:
-        preorder = list(preorder)
-        if not preorder or not inorder:
-            return None
-
+        preorder_index = 0
         inorder_indexes = {v: i for i, v in enumerate(inorder)}
 
-        def buildTree_recursive(left, right):
-            if left > right:
+        def recursive(left, right):
+            nonlocal preorder_index
+            if left == right:
                 return None
 
-            val = preorder.pop(0)
+            val = preorder[preorder_index]
+            preorder_index += 1
             node = TreeNode(val)
 
-            node.left = buildTree_recursive(left, inorder_indexes[val] - 1)
-            node.right = buildTree_recursive(inorder_indexes[val] + 1, right)
+            node.left = recursive(left, inorder_indexes[val])
+            node.right = recursive(inorder_indexes[val] + 1, right)
 
             return node
 
-        tree = buildTree_recursive(0, len(inorder) - 1)
+        tree = recursive(0, len(inorder))
         return tree
 
 
