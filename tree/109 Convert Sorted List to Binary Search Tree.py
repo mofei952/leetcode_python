@@ -1,24 +1,8 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-# @Author  : mofei
-# @Time    : 2019/5/18 19:24
-# @File    : 109 Convert Sorted List to Binary Search Tree.py
-# @Software: PyCharm
-
 """
-Given a singly linked list where elements are sorted in ascending order, convert it to a height balanced BST.
-For this problem, a height-balanced binary tree is defined as a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
-
-Example:
-Given the sorted linked list: [-10,-3,0,5,9],
-One possible answer is: [0,-3,9,-10,null,5], which represents the following height balanced BST:
-      0
-     / \
-   -3   9
-   /   /
- -10  5
+question:
+https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/
 """
+import math
 from typing import List
 
 from linked_list.list_node import ListNode
@@ -36,14 +20,31 @@ class Solution:
             if not nums:
                 return None
             index = len(nums) // 2
-            val = nums[index]
-            node = TreeNode(val)
+            # index = math.ceil(len(nums) / 2) - 1
+            node = TreeNode(nums[index])
             node.left = sortedArrayToBST(nums[:index])
             node.right = sortedArrayToBST(nums[index + 1:])
             return node
 
         return sortedArrayToBST(nums)
 
+    def sortedListToBST2(self, head: ListNode) -> TreeNode:
+        nums = []
+        while head:
+            nums.append(head.val)
+            head = head.next
+
+        def recursive(left, right):
+            if left == right:
+                return None
+            index = (left + right) // 2
+            node = TreeNode(nums[index])
+            node.left = recursive(left, index)
+            node.right = recursive(index + 1, right)
+            return node
+
+        return recursive(0, len(nums))
+
 
 if __name__ == '__main__':
-    print(Solution().sortedListToBST(ListNode.create_linked_list([-10, -3, 0, 5, 9])))
+    Solution().sortedListToBST2(ListNode.create_linked_list([-10, -3, 0, 5, 9])).display()
