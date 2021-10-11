@@ -6,7 +6,7 @@ from tree.binary_tree import create_tree, TreeNode
 
 
 class Codec:
-    def preorder(self, root):
+    def preorder_traversal(self, root):
         res = []
         stack = []
         node = root
@@ -19,7 +19,7 @@ class Codec:
             node = node.right
         return res
 
-    def inorder(self, root):
+    def inorder_traversal(self, root):
         res = []
         stack = []
         node = root
@@ -35,30 +35,30 @@ class Codec:
     def serialize(self, root: TreeNode) -> str:
         """Encodes a tree to a single string.
         """
-        return str((self.preorder(root), self.inorder(root)))
+        return str((self.preorder_traversal(root), self.inorder_traversal(root)))
 
     def deserialize(self, data: str) -> TreeNode:
         """Decodes your encoded data to tree.
         """
         preorder, inorder = eval(data)
-        if not preorder or not inorder:
-            return None
-
+        preorder_index = 0
         inorder_indexes = {v: i for i, v in enumerate(inorder)}
 
         def recursive(left, right):
-            if left > right:
+            nonlocal preorder_index
+            if left == right:
                 return None
 
-            val = preorder.pop(0)
+            val = preorder[preorder_index]
+            preorder_index += 1
             node = TreeNode(val)
 
-            node.left = recursive(left, inorder_indexes[val] - 1)
+            node.left = recursive(left, inorder_indexes[val])
             node.right = recursive(inorder_indexes[val] + 1, right)
 
             return node
 
-        tree = recursive(0, len(inorder) - 1)
+        tree = recursive(0, len(inorder))
         return tree
 
 
