@@ -1,12 +1,6 @@
 """
-The thief has found himself a new place for his thievery again.
-There is only one entrance to this area, called root.
-
-Besides the root, each house has one and only one parent house.
-After a tour, the smart thief realized that all houses in this place form a binary tree.
-It will automatically contact the police if two directly-linked houses were broken into on the same night.
-
-Given the root of the binary tree, return the maximum amount of money the thief can rob without alerting the police.
+question:
+https://leetcode.com/problems/house-robber-iii/
 """
 
 from tree.binary_tree import TreeNode, create_tree
@@ -14,13 +8,14 @@ from tree.binary_tree import TreeNode, create_tree
 
 class Solution:
     def rob(self, root: TreeNode) -> int:
-        def traverse(node):
+        def recursive(node):
             if node is None:
                 return 0, 0
-            lrob, lnotrob = traverse(node.left)
-            rrob, rnotlab = traverse(node.right)
-            return node.val+lnotrob+rnotlab, max(lrob, lnotrob)+max(rrob, rnotlab)
-        return max(traverse(root))
+            lrob, lnotrob = recursive(node.left)
+            rrob, rnotlab = recursive(node.right)
+            return node.val + lnotrob + rnotlab, max(lrob, lnotrob) + max(rrob, rnotlab)
+
+        return max(recursive(root))
 
 
 if __name__ == '__main__':
