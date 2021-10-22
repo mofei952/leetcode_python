@@ -10,7 +10,7 @@ class Solution:
         node_to_parent = {}
         queue = [root]
         while queue:
-            node = queue.pop(0)
+            node = queue.pop()
             if node.left:
                 queue.append(node.left)
                 node_to_parent[node.left.val] = node
@@ -23,10 +23,10 @@ class Solution:
             pnode_parents.append(p)
             p = node_to_parent.get(p.val)
 
-        while q:
-            if q in pnode_parents:
-                return q
+        while q not in pnode_parents:
             q = node_to_parent.get(q.val)
+
+        return q
 
 
 if __name__ == '__main__':
