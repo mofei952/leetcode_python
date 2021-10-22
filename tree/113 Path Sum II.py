@@ -1,29 +1,6 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-# @Author  : mofei
-# @Time    : 2019/5/22 19:06
-# @File    : 113 Path Sum II.py
-# @Software: PyCharm
-
 """
-Given a binary tree and a sum, find all root-to-leaf paths where each path's sum equals the given sum.
-Note: A leaf is a node with no children.
-
-Example:
-Given the below binary tree and sum = 22,
-      5
-     / \
-    4   8
-   /   / \
-  11  13  4
- /  \    / \
-7    2  5   1
-Return:
-[
-   [5,4,11,2],
-   [5,8,4,5]
-]
+question:
+https://leetcode.com/problems/path-sum-ii/
 """
 
 from typing import List
@@ -55,7 +32,7 @@ class Solution:
             return []
         if not root.left and not root.right:
             return [[sum]] if root.val == sum else []
-        path_list = self.pathSum(root.left, sum - root.val) + self.pathSum(root.right, sum - root.val)
+        path_list = self.pathSum2(root.left, sum - root.val) + self.pathSum2(root.right, sum - root.val)
         path_list = [[root.val] + path for path in path_list]
         return path_list
 
@@ -74,6 +51,7 @@ class Solution:
         path.pop()
 
     def pathSum3(self, root: TreeNode, sum: int) -> List[List[int]]:
+        """ fastest"""
         if not root:
             return []
         self.path_list = []
@@ -104,7 +82,13 @@ def test_113_3(test_data):
     func_test(Solution().pathSum3, *test_data)
 
 
+# pytest -vv --durations=10 -q '113 Path Sum II.py'
+
+
 if __name__ == '__main__':
-    # print(Solution().pathSum(TreeNode.create_tree([5, 4, 8, 11, None, 13, 4, 7, 2, None, None, 5, 1]), 22))
-    # print(Solution().pathSum2(TreeNode.create_tree([5, 4, 8, 11, None, 13, 4, 7, 2, None, None, 5, 1]), 22))
-    pytest.main(['-vv', '--durations=10', '-q', '113 Path Sum II.py'])
+    assert Solution().pathSum(
+        create_tree([5, 4, 8, 11, None, 13, 4, 7, 2, None, None, 5, 1]), 22
+    ) == [[5, 4, 11, 2], [5, 8, 4, 5]]
+    assert Solution().pathSum2(
+        create_tree([5, 4, 8, 11, None, 13, 4, 7, 2, None, None, 5, 1]), 22
+    ) == [[5, 4, 11, 2], [5, 8, 4, 5]]
