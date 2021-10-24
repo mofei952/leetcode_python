@@ -43,24 +43,73 @@ class Solution:
         return 1 + self.countNodes2(root.left) + self.countNodes2(root.right)
 
 
-@pytest.fixture(scope="module")
-def test_data():
-    params_list = []
-    res_list = []
-    # range(5 * 10 ** 3) test1: 1.82s test2:0.10s
-    for i in range(5 * 10 ** 4):
-        params = (create_tree(range(i)),)
-        params_list.append(params)
-        res_list.append(Solution().countNodes2(*params))
-    return params_list, res_list, 1
+# @pytest.mark.skip
+# def test_data_list(start, stop):
+#     arr = list(range(start))
+#     for i in range(start, stop):
+#         tree = create_tree(arr)
+#         count = Solution().countNodes2(tree)
+#         arr.append(i + 1)
+#         yield tree, count
+#
+#
+# @pytest.mark.parametrize("tree,count", test_data_list(0, 5 * 10 ** 3))
+# def test1(tree, count):
+#     assert Solution().countNodes(tree) == count
+#
+#
+# @pytest.mark.parametrize("tree,count", test_data_list(0, 5 * 10 ** 3))
+# def test2(tree, count):
+#     assert Solution().countNodes2(tree) == count
 
 
-def test1(test_data):
-    func_test(Solution().countNodes, *test_data)
+def complete_trees_gen(start, stop):
+    if start == 0:
+        yield None
+
+    root = TreeNode(1)
+    queue = [root]
+    if start <= 1:
+        yield root
+
+    for i in range(2, stop, 2):
+        node = queue.pop(0)
+
+        node.left = TreeNode(i)
+        queue.append(node.left)
+        if start <= i:
+            yield root
+
+        if i + 1 >= stop:
+            continue
+
+        node.right = TreeNode(i + 1)
+        queue.append(node.right)
+        if start <= i + 1:
+            yield root
 
 
-def test2(test_data):
-    func_test(Solution().countNodes2, *test_data)
+@pytest.mark.skip
+def test_data_gen(start, stop):
+    generator = complete_trees_gen(start, stop)
+    for i in range(start, stop):
+        tree = next(generator)
+        yield tree, i
+
+
+def test1():
+    for tree, count in test_data_gen(0, 5 * 10 ** 4):
+        assert Solution().countNodes(tree) == count
+
+
+def test2():
+    for tree, count in test_data_gen(0, 5 * 10 ** 4):
+        assert Solution().countNodes2(tree) == count
+
+
+# count     test1    test2
+# 0~5*10^3  1.82s    0.10s
+# 0~5*10^4  163.04s  1.54s
 
 
 if __name__ == '__main__':
