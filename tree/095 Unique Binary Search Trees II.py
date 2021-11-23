@@ -12,9 +12,15 @@ class Solution:
         if n == 0:
             return []
 
+        cache = {}
+
         def generate(start, end):
+            if (start, end) in cache:
+                return cache[(start, end)]
+
             if start > end:
                 return [None]
+
             trees = []
             for i in range(start, end + 1):
                 ltrees = generate(start, i - 1)
@@ -25,6 +31,8 @@ class Solution:
                         node.left = ltree
                         node.right = rtree
                         trees.append(node)
+
+            cache[(start, end)] = trees
             return trees
 
         return generate(1, n)
