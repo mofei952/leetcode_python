@@ -2,6 +2,7 @@
 question:
 https://leetcode.com/problems/unique-binary-search-trees-ii/
 """
+from functools import lru_cache
 from typing import List, Optional
 
 from tree.binary_tree import TreeNode, create_tree
@@ -12,12 +13,8 @@ class Solution:
         if n == 0:
             return []
 
-        cache = {}
-
+        @lru_cache(None)
         def generate(start, end):
-            if (start, end) in cache:
-                return cache[(start, end)]
-
             if start > end:
                 return [None]
 
@@ -32,7 +29,6 @@ class Solution:
                         node.right = rtree
                         trees.append(node)
 
-            cache[(start, end)] = trees
             return trees
 
         return generate(1, n)
