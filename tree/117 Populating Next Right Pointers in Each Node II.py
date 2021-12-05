@@ -33,6 +33,24 @@ class Solution:
             queue = new_queue
         return root
 
+    def connect2(self, root: TreeNode) -> TreeNode:
+        if root is None:
+            return None
+        leftmost = root
+        while leftmost:
+            node = leftmost
+            leftmost = prev = None
+            while node:
+                for curr in (node.left, node.right):
+                    if curr:
+                        if prev is None:
+                            leftmost = curr
+                        else:
+                            prev.next = curr
+                        prev = curr
+                node = node.next
+        return root
+
 
 def tree_to_list(root):
     if root is None:
@@ -58,8 +76,8 @@ def tree_to_list(root):
 
 
 if __name__ == '__main__':
-    res = Solution().connect(create_tree([1, 2, 3, 4, 5, None, 7]))
+    res = Solution().connect2(create_tree([1, 2, 3, 4, 5, None, 7]))
     assert tree_to_list(res) == [1, '#', 2, 3, '#', 4, 5, 7, '#']
 
-    res = Solution().connect(create_tree([]))
+    res = Solution().connect2(create_tree([]))
     assert tree_to_list(res) == []
