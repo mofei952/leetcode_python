@@ -16,8 +16,17 @@ class Solution:
                 stack.append('#')
         return stack == ['#']
 
+    def isValidSerialization2(self, preorder: str) -> bool:
+        count = 1
+        for c in preorder.split(','):
+            if count == 0:
+                return False
+            count += 1 if c != '#' else -1
+        return count == 0
+
 
 if __name__ == '__main__':
-    assert Solution().isValidSerialization("9,3,4,#,#,1,#,#,2,#,6,#,#") is True
-    assert Solution().isValidSerialization("1,#") is False
-    assert Solution().isValidSerialization("9,#,#,1") is False
+    assert Solution().isValidSerialization2("9,3,4,#,#,1,#,#,2,#,6,#,#") is True
+    assert Solution().isValidSerialization2("1,#") is False
+    assert Solution().isValidSerialization2("9,#,#,1") is False
+    assert Solution().isValidSerialization2("#") is True
