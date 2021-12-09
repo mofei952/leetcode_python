@@ -9,6 +9,8 @@ from tree.binary_tree import create_tree, TreeNode
 
 class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        """ 递归先序遍历解法 """
+
         def validate(node, low, high):
             if node is None:
                 return True
@@ -19,6 +21,7 @@ class Solution:
         return validate(root, float('-inf'), float('inf'))
 
     def isValidBST2(self, root: Optional[TreeNode]) -> bool:
+        """ 递归中序遍历解法 """
         prev = float('-inf')
 
         def inorder(node):
@@ -40,6 +43,7 @@ class Solution:
         return inorder(root)
 
     def isValidBST3(self, root: Optional[TreeNode]) -> bool:
+        """ 非递归中序遍历解法（非递归的效率更高） """
         stack = []
         node = root
         prev = float('-inf')
