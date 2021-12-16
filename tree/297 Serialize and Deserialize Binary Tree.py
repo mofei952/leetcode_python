@@ -3,6 +3,7 @@ question:
 https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
 """
 import json
+from collections import deque
 
 from tree.binary_tree import create_tree, TreeNode
 
@@ -17,20 +18,18 @@ class Codec:
         """
         result = []
 
-        queue = [root]
+        queue = deque()
+        queue.append(root)
         while queue:
-            node = queue.pop(0)
+            node = queue.popleft()
             if node is None:
-                result.append(None)
+                result.append('N')
                 continue
-            result.append(node.val)
+            result.append(str(node.val))
             queue.append(node.left)
             queue.append(node.right)
 
-        while result and result[-1] is None:
-            result.pop()
-
-        return json.dumps(result)
+        return ','.join(result).rstrip(',N')
 
     def deserialize(self, data):
         """Decodes your encoded data to tree.
@@ -38,24 +37,27 @@ class Codec:
         :type data: str
         :rtype: TreeNode
         """
-        arr = json.loads(data)
-        if not arr:
+        if not data:
             return None
 
+        arr = data.split(',')
         length = len(arr)
-        root = TreeNode(arr[0])
-        queue = [root]
-        for i in range(1, length, 2):
-            node = queue.pop(0)
 
-            if arr[i] is not None:
-                node.left = TreeNode(arr[i])
+        root = TreeNode(arr[0])
+        queue = deque()
+        queue.append(root)
+
+        for i in range(1, length, 2):
+            node = queue.popleft()
+
+            if arr[i] != 'N':
+                node.left = TreeNode(int(arr[i]))
                 queue.append(node.left)
 
             if i + 1 >= length:
                 continue
-            if arr[i + 1] is not None:
-                node.right = TreeNode(arr[i + 1])
+            if arr[i + 1] != 'N':
+                node.right = TreeNode(int(arr[i + 1]))
                 queue.append(node.right)
 
         return root
