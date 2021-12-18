@@ -2,7 +2,6 @@
 question:
 https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
 """
-import json
 from collections import deque
 
 from tree.binary_tree import create_tree, TreeNode
