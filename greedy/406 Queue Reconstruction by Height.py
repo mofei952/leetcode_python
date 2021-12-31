@@ -9,20 +9,13 @@ from typing import List
 
 class Solution:
     def reconstructQueue(self, people: List[List[int]]) -> List[List[int]]:
-        count_and_peoples = defaultdict(list)
+        hk = defaultdict(list)
         for h, k in people:
-            heapq.heappush(count_and_peoples[k], h)
+            hk[h].append(k)
         queue = []
-        for i in range(len(people)):
-            for j in range(i, -1, -1):
-                if count_and_peoples[j]:
-                    h = heapq.heappop(count_and_peoples[j])
-                    jj = sum(hh >= h for hh, kk in queue)
-                    if jj == j:
-                        queue.append([h, j])
-                        break
-                    else:
-                        heapq.heappush(count_and_peoples[j], h)
+        for h in sorted(hk.keys(), reverse=True):
+            for k in sorted(hk[h]):
+                queue.insert(k, [h, k])
         return queue
 
 
