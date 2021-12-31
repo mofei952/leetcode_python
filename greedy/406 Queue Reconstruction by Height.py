@@ -2,20 +2,14 @@
 question:
 https://leetcode.com/problems/queue-reconstruction-by-height/
 """
-import heapq
-from collections import defaultdict
 from typing import List
 
 
 class Solution:
     def reconstructQueue(self, people: List[List[int]]) -> List[List[int]]:
-        hk = defaultdict(list)
-        for h, k in people:
-            hk[h].append(k)
         queue = []
-        for h in sorted(hk.keys(), reverse=True):
-            for k in sorted(hk[h]):
-                queue.insert(k, [h, k])
+        for h, k in sorted(people, key=lambda p: (-p[0], p[1])):
+            queue.insert(k, [h, k])
         return queue
 
 
