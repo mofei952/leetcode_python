@@ -3,7 +3,7 @@ quesion:
 https://leetcode.com/problems/container-with-most-water/
 
 solution:
-https://mofei952.github.io/2021/08/07/leetcode%2011%20Container%20With%20Most%20Water/
+https://blog.csdn.net/xingjingb/article/details/120107482
 """
 
 from typing import List
@@ -42,5 +42,5 @@ class Solution:
 
 
 if __name__ == '__main__':
-    print(Solution().maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]))
-    print(Solution().maxArea2([1, 8, 6, 2, 5, 4, 8, 3, 7]))
+    assert Solution().maxArea2([1, 8, 6, 2, 5, 4, 8, 3, 7]) == 49
+    assert Solution().maxArea2([1, 1]) == 1
