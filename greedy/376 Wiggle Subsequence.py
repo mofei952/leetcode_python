@@ -35,11 +35,12 @@ class Solution:
             return len(dedup_nums)
 
         count = 1
+        last_asc = dedup_nums[1] > dedup_nums[0]
         for i in range(2, len(dedup_nums)):
             asc = dedup_nums[i] > dedup_nums[i - 1]
-            last_asc = dedup_nums[i - 1] > dedup_nums[i - 2]
             if asc != last_asc:
                 count += 1
+            last_asc = asc
 
         return count + 1
 
