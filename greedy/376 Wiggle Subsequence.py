@@ -7,22 +7,15 @@ from typing import List
 
 class Solution:
     def wiggleMaxLength(self, nums: List[int]) -> int:
-        if len(nums) == 1:
-            return len(nums)
-
         count = 1
         last_asc = None
         for i in range(1, len(nums)):
             if nums[i] == nums[i - 1]:
                 continue
             asc = nums[i] > nums[i - 1]
-            if last_asc is not None and asc != last_asc:
+            if asc != last_asc:
                 count += 1
             last_asc = asc
-
-        if last_asc is not None:
-            count += 1
-
         return count
 
     def wiggleMaxLength2(self, nums: List[int]) -> int:
@@ -46,12 +39,12 @@ class Solution:
 
 
 if __name__ == '__main__':
-    assert Solution().wiggleMaxLength2([1, 7, 4, 9, 2, 5]) == 6
-    assert Solution().wiggleMaxLength2([1, 4, 7, 2, 5]) == 4
-    assert Solution().wiggleMaxLength2([1, 7, 4, 5, 5]) == 4
-    assert Solution().wiggleMaxLength2([1, 17, 5, 10, 13, 15, 10, 5, 16, 8]) == 7
-    assert Solution().wiggleMaxLength2([1, 2, 3, 4, 5, 6, 7, 8, 9]) == 2
-    assert Solution().wiggleMaxLength2([1, 7]) == 2
-    assert Solution().wiggleMaxLength2([1]) == 1
-    assert Solution().wiggleMaxLength2([0, 0]) == 1
-    assert Solution().wiggleMaxLength2([3, 3, 3, 2, 5]) == 3
+    assert Solution().wiggleMaxLength([1, 7, 4, 9, 2, 5]) == 6
+    assert Solution().wiggleMaxLength([1, 4, 7, 2, 5]) == 4
+    assert Solution().wiggleMaxLength([1, 7, 4, 5, 5]) == 4
+    assert Solution().wiggleMaxLength([1, 17, 5, 10, 13, 15, 10, 5, 16, 8]) == 7
+    assert Solution().wiggleMaxLength([1, 2, 3, 4, 5, 6, 7, 8, 9]) == 2
+    assert Solution().wiggleMaxLength([1, 7]) == 2
+    assert Solution().wiggleMaxLength([1]) == 1
+    assert Solution().wiggleMaxLength([0, 0]) == 1
+    assert Solution().wiggleMaxLength([3, 3, 3, 2, 5]) == 3
