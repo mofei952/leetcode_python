@@ -23,10 +23,22 @@ class Solution:
                 max_value = nums[i]
         return False
 
+    def increasingTriplet2(self, nums: List[int]) -> bool:
+        min_val = float('inf')
+        second_min_val = float('inf')
+        for num in nums:
+            if num <= min_val:
+                min_val = num
+            elif num <= second_min_val:
+                second_min_val = num
+            else:
+                return True
+        return False
+
 
 if __name__ == '__main__':
-    assert Solution().increasingTriplet([1, 2, 3, 4, 5]) is True
-    assert Solution().increasingTriplet([5, 4, 3, 2, 1]) is False
-    assert Solution().increasingTriplet([2, 1, 5, 0, 4, 6]) is True
-    assert Solution().increasingTriplet([2]) is False
-    assert Solution().increasingTriplet([1, 2]) is False
+    assert Solution().increasingTriplet2([1, 2, 3, 4, 5]) is True
+    assert Solution().increasingTriplet2([5, 4, 3, 2, 1]) is False
+    assert Solution().increasingTriplet2([2, 1, 5, 0, 4, 6]) is True
+    assert Solution().increasingTriplet2([2]) is False
+    assert Solution().increasingTriplet2([1, 2]) is False
