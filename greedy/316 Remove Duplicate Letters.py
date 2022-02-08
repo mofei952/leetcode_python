@@ -8,13 +8,15 @@ from collections import Counter
 class Solution:
     def removeDuplicateLetters(self, s: str) -> str:
         stack = []
-        counter = Counter(s)
-        for c in s:
-            if c not in stack:
-                while stack and stack[-1] > c and counter[stack[-1]] > 0:
-                    stack.pop()
-                stack.append(c)
-            counter[c] -= 1
+        visited = set()
+        last_occ = {c: i for i, c in enumerate(s)}
+        for i, c in enumerate(s):
+            if c in visited:
+                continue
+            while stack and stack[-1] > c and last_occ[stack[-1]] > i:
+                visited.remove(stack.pop())
+            stack.append(c)
+            visited.add(c)
         return ''.join(stack)
 
 
