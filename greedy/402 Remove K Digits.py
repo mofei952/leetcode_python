@@ -11,6 +11,8 @@ class Solution:
             return '0'
 
         nums = [int(n) for n in num]
+        if k == len(num) - 1:
+            return str(min(nums))
 
         num_counts = [0] * 10
         j = k + 1
@@ -35,14 +37,25 @@ class Solution:
             num_counts[n] -= 1
 
             # print(n, remove, num_counts, res)
-            if len(res) == len(nums)-k:
+            if len(res) == len(nums) - k:
                 break
 
         return str(int(''.join(map(str, res))))
 
+    def removeKdigits2(self, num: str, k: int) -> str:
+        stack = []
+        for digit in num:
+            while k and stack and digit < stack[-1]:
+                stack.pop()
+                k -= 1
+            stack.append(digit)
+        if k:
+            stack = stack[:-k]
+        return ''.join(stack).lstrip('0') or '0'
+
 
 if __name__ == '__main__':
-    assert Solution().removeKdigits('1432219', 3) == '1219'
-    assert Solution().removeKdigits('10200', 1) == '200'
-    assert Solution().removeKdigits('10', 2) == '0'
-    assert Solution().removeKdigits('112', 1) == '11'
+    assert Solution().removeKdigits2('1432219', 3) == '1219'
+    assert Solution().removeKdigits2('10200', 1) == '200'
+    assert Solution().removeKdigits2('10', 2) == '0'
+    assert Solution().removeKdigits2('112', 1) == '11'
