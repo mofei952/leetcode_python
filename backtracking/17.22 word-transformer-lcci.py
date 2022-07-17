@@ -2,6 +2,7 @@
 question:
 https://leetcode.cn/problems/word-transformer-lcci/
 """
+import string
 from typing import List
 
 
@@ -55,42 +56,64 @@ class Solution:
         return res
 
     def findLadders2(self, beginWord: str, endWord: str, wordList: List[str]) -> List[str]:
-        # dfs + 遍历字母快速获得编辑距离为1的有效单词 + 记忆化搜索
+        # dfs + 遍历字母快速获得编辑距离为1的有效单词 + 剪枝
         def dfs(word, words):
-            if word in visited_words:
-                return False
-            visited_words.add(word)
-
             if word == endWord:
                 return True
 
             for i in range(len(word)):
-                for c in ('a', 'b', 'c', 'd', 'e', 'f', 'g',
-                          'h', 'i', 'j', 'k', 'l', 'm', 'n',
-                          'o', 'p', 'q', 'r', 's', 't',
-                          'u', 'v', 'w', 'x', 'y', 'z'):
+                for c in string.ascii_lowercase:
                     w = word[:i] + c + word[i + 1:]
-                    if w in words:
-                        res.append(w)
-                        words.remove(w)
-                        if dfs(w, words):
-                            return True
-                        words.add(w)
-                        res.pop()
+
+                    if w not in words:
+                        continue
+                    words.remove(w)
+
+                    res.append(w)
+                    if dfs(w, words):
+                        return True
+                    res.pop()
 
         res = [beginWord]
-        visited_words = set()
-        dfs(beginWord, set(wordList))
+        words = set(wordList)
+        if beginWord in words:
+            words.remove(beginWord)
+        if dfs(beginWord, words):
+            print(res)
+            return res
+        print([])
+        return []
 
-        if len(res) == 1:
-            res = []
-        print(res)
-        return res
+    def findLadders3(self, beginWord: str, endWord: str, wordList: List[str]) -> List[str]:
+        # bfs + 遍历字母快速获得编辑距离为1的有效单词（没有算法2快）
+        queue = [beginWord]
+        words = set(wordList)
+        previous_map = {}
+        while queue:
+            word = queue.pop()
+            if word == endWord:
+                break
+            for i in range(len(word)):
+                for c in string.ascii_lowercase:
+                    w = word[:i] + c + word[i + 1:]
+                    if w in words:
+                        words.remove(w)
+                        queue.append(w)
+                        previous_map[w] = word
+        else:
+            print([])
+            return []
+        word = endWord
+        res = [word]
+        while word != beginWord:
+            word = previous_map[word]
+            res.append(word)
+        print(res[::-1])
+        return res[::-1]
 
 
 if __name__ == '__main__':
-    # 记忆化搜索、dfs、剪枝
-    # 遍历字母快速获得编辑距离为1的有效单词、bfs
+    # dfs、bfs、记忆化搜索、剪枝、遍历字母快速获得编辑距离为1的有效单词
     Solution().findLadders2('hit', 'cog', ['hot', 'dot', 'dog', 'lot', 'log', 'cog'])
     Solution().findLadders2('hit', 'cog', ["hot", "dot", "dog", "lot", "log"])
     Solution().findLadders2('hot', 'dog', ["hot", "dog", "dot"])
